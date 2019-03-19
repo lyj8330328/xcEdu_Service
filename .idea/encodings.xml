@@ -6,7 +6,11 @@
     <file url="file://$PROJECT_DIR$/xc-framework-parent" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/xc-framework-utils" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/xc-service-api" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/xc-service-manage-cms" charset="UTF-8" />
+    <file url="file://F:/架构/微服务课程/学成在线项目/1.搭建环境 CMS服务端开发/资料/资料备份/基础工程/xc-framework-common" charset="UTF-8" />
+    <file url="file://F:/架构/微服务课程/学成在线项目/1.搭建环境 CMS服务端开发/资料/资料备份/基础工程/xc-framework-model" charset="UTF-8" />
+    <file url="file://F:/架构/微服务课程/学成在线项目/1.搭建环境 CMS服务端开发/资料/资料备份/基础工程/xc-framework-parent" charset="UTF-8" />
+    <file url="file://F:/架构/微服务课程/学成在线项目/1.搭建环境 CMS服务端开发/资料/资料备份/基础工程/xc-framework-utils" charset="UTF-8" />
+    <file url="file://F:/架构/微服务课程/学成在线项目/1.搭建环境 CMS服务端开发/资料/资料备份/基础工程/xc-service-api" charset="UTF-8" />
     <file url="PROJECT" charset="UTF-8" />
   </component>
 </project>
