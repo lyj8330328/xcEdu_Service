@@ -11,9 +11,9 @@ import org.springframework.context.annotation.ComponentScan;
  */
 @EntityScan("com.xuecheng.framework.domain.cms")
 /**
- * 扫描接口
+ * 扫描接口，swagger接口文档
  */
-@ComponentScan(basePackages = {"com.xuecheng.api.cms"})
+@ComponentScan(basePackages = {"com.xuecheng.api"})
 /**
  * 扫描本项目下的所有包
  */
