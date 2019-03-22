@@ -11,6 +11,17 @@ import org.springframework.data.mongodb.repository.MongoRepository;
  * @Feature: mongodb  dao
  */
 public interface CmsPageRepository extends MongoRepository<CmsPage,String> {
+
+
+    /**
+     * 页面新增时根据页面名称、站点Id、页面pageWebPath进行校验
+     * @param pageName 页面名称
+     * @param siteId 站点ID
+     * @param pageWebPath 页面路径
+     * @return
+     */
+    CmsPage findByPageNameAndSiteIdAndPageWebPath(String pageName,String siteId,String pageWebPath);
+
     /**
      * 根据页面名称查询
      * @param pageName
