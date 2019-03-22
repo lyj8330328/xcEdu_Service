@@ -1,11 +1,11 @@
 package com.xuecheng.api.cms;
 
+import com.xuecheng.framework.domain.cms.CmsPage;
 import com.xuecheng.framework.domain.cms.request.QueryPageRequest;
+import com.xuecheng.framework.domain.cms.response.CmsPageResult;
 import com.xuecheng.framework.model.response.QueryResponseResult;
 import io.swagger.annotations.*;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @Author: 98050
@@ -32,4 +32,13 @@ public interface CmsPageControllerApi {
             @ApiResponse(code = 10000,message = "操作成功")
     })
     QueryResponseResult findList(@PathVariable("page") int page, @PathVariable("size") int size, QueryPageRequest queryPageRequest);
+
+    /**
+     * 页面新增
+     * @param cmsPage
+     * @return
+     */
+    @ApiOperation("页面添加")
+    @PostMapping("/add")
+    CmsPageResult add(@RequestBody CmsPage cmsPage);
 }

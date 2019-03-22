@@ -2,6 +2,7 @@ package com.xuecheng.managecms.service.impl;
 
 import com.xuecheng.framework.domain.cms.CmsPage;
 import com.xuecheng.framework.domain.cms.request.QueryPageRequest;
+import com.xuecheng.framework.domain.cms.response.CmsPageResult;
 import com.xuecheng.framework.model.response.CommonCode;
 import com.xuecheng.framework.model.response.QueryResponseResult;
 import com.xuecheng.framework.model.response.QueryResult;
@@ -88,5 +89,22 @@ public class CmsServiceImpl implements CmsService {
         queryResult.setTotal(pages.getTotalElements());
 
         return new QueryResponseResult(CommonCode.SUCCESS, queryResult);
+    }
+
+    /**
+     * @param cmsPage cms对象
+     * @return
+     */
+    @Override
+    public CmsPageResult add(CmsPage cmsPage) {
+        //1.首先校验页面是否存在
+        CmsPage temp = this.cmsPageRepository.findByPageNameAndSiteIdAndPageWebPath(cmsPage.getPageName(), cmsPage.getSiteId(), cmsPage.getPageWebPath());
+        if (temp == null){
+            cmsPage.setPageId(null);
+            this.cmsPageRepository.save(cmsPage);
+            //2.返回结果
+            return new CmsPageResult(CommonCode.SUCCESS, cmsPage);
+        }
+        return new CmsPageResult(CommonCode.FAIL, null);
     }
 }
