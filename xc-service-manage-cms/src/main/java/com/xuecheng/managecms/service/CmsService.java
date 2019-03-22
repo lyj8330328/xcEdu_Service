@@ -15,7 +15,7 @@ public interface CmsService {
      * @param page 页码
      * @param size 页大小
      * @param queryPageRequest 具体请求参数
-     * @return
+     * @return 分页列表
      */
     QueryResponseResult queryByPage(int page, int size, QueryPageRequest queryPageRequest);
 }
