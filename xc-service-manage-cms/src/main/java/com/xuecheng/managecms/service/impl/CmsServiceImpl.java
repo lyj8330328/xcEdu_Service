@@ -2,6 +2,7 @@ package com.xuecheng.managecms.service.impl;
 
 import com.xuecheng.framework.domain.cms.CmsPage;
 import com.xuecheng.framework.domain.cms.request.QueryPageRequest;
+import com.xuecheng.framework.domain.cms.response.CmsCode;
 import com.xuecheng.framework.domain.cms.response.CmsPageResult;
 import com.xuecheng.framework.model.response.CommonCode;
 import com.xuecheng.framework.model.response.QueryResponseResult;
@@ -12,6 +13,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 /**
  * @Author: 98050
@@ -106,5 +109,40 @@ public class CmsServiceImpl implements CmsService {
             return new CmsPageResult(CommonCode.SUCCESS, cmsPage);
         }
         return new CmsPageResult(CommonCode.FAIL, null);
+    }
+
+    /**
+     * 根据页面id查询
+     * @param id
+     * @return
+     */
+    @Override
+    public CmsPage findById(String id) {
+        Optional<CmsPage> optional = cmsPageRepository.findById(id);
+        return optional.orElse(null);
+    }
+
+    /**
+     * 更新页面
+     * @param id 页面id
+     * @param cmsPage 页面对象
+     * @return
+     */
+    @Override
+    public CmsPageResult update(String id, CmsPage cmsPage) {
+        CmsPage temp = findById(id);
+        if (temp != null){
+            //更新页面:模板id、所属站点、页面别名、页面名称、访问路径、物理路径
+            temp.setTemplateId(cmsPage.getTemplateId());
+            temp.setSiteId(cmsPage.getSiteId());
+            temp.setPageAliase(cmsPage.getPageAliase());
+            temp.setPageName(cmsPage.getPageName());
+            temp.setPageWebPath(cmsPage.getPageWebPath());
+            temp.setPagePhysicalPath(cmsPage.getPagePhysicalPath());
+            temp.setDataUrl(cmsPage.getDataUrl());
+            CmsPage save = this.cmsPageRepository.save(temp);
+            return new CmsPageResult(CommonCode.SUCCESS, save);
+        }
+        return null;
     }
 }

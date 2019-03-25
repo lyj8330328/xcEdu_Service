@@ -28,4 +28,19 @@ public interface CmsService {
      * @return 操作结果
      */
     CmsPageResult add(CmsPage cmsPage);
+
+    /**
+     * 根据id查询页面
+     * @param id
+     * @return
+     */
+    CmsPage findById(String id);
+
+    /**
+     * 更新页面
+     * @param id 页面id
+     * @param cmsPage 页面对象
+     * @return
+     */
+    CmsPageResult update(String id,CmsPage cmsPage);
 }
