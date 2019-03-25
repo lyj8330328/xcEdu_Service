@@ -4,6 +4,7 @@ import com.xuecheng.framework.domain.cms.CmsPage;
 import com.xuecheng.framework.domain.cms.request.QueryPageRequest;
 import com.xuecheng.framework.domain.cms.response.CmsPageResult;
 import com.xuecheng.framework.model.response.QueryResponseResult;
+import com.xuecheng.framework.model.response.ResponseResult;
 import io.swagger.annotations.*;
 import org.springframework.web.bind.annotation.*;
 
@@ -79,4 +80,20 @@ public interface CmsPageControllerApi {
             @ApiResponse(code = 11111,message = "操作失败")
     })
     CmsPageResult update(@PathVariable String id,@RequestBody CmsPage cmsPage);
+
+    /**
+     * 删除页面
+     * @param id
+     * @return
+     */
+    @ApiOperation("删除页面")
+    @DeleteMapping("/delete/{id}")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id",value = "页面Id",required = true,paramType = "path",dataType = "String")
+    })
+    @ApiResponses({
+            @ApiResponse(code = 10000,message = "操作成功"),
+            @ApiResponse(code = 11111,message = "操作失败")
+    })
+    ResponseResult delete(@PathVariable String id);
 }

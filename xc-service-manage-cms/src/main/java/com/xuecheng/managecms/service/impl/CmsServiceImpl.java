@@ -7,6 +7,7 @@ import com.xuecheng.framework.domain.cms.response.CmsPageResult;
 import com.xuecheng.framework.model.response.CommonCode;
 import com.xuecheng.framework.model.response.QueryResponseResult;
 import com.xuecheng.framework.model.response.QueryResult;
+import com.xuecheng.framework.model.response.ResponseResult;
 import com.xuecheng.managecms.dao.CmsPageRepository;
 import com.xuecheng.managecms.service.CmsService;
 import org.apache.commons.lang3.StringUtils;
@@ -144,5 +145,21 @@ public class CmsServiceImpl implements CmsService {
             return new CmsPageResult(CommonCode.SUCCESS, save);
         }
         return null;
+    }
+
+    /**
+     * 删除页面
+     * @param id
+     * @return
+     */
+    @Override
+    public ResponseResult delete(String id) {
+        CmsPage cmsPage = findById(id);
+        if (cmsPage != null){
+            // 删除页面
+            this.cmsPageRepository.deleteById(id);
+            return ResponseResult.SUCCESS();
+        }
+        return  ResponseResult.FAIL();
     }
 }
