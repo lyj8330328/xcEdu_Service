@@ -4,6 +4,7 @@ import com.xuecheng.framework.domain.cms.CmsPage;
 import com.xuecheng.framework.domain.cms.request.QueryPageRequest;
 import com.xuecheng.framework.domain.cms.response.CmsCode;
 import com.xuecheng.framework.domain.cms.response.CmsPageResult;
+import com.xuecheng.framework.exception.ExceptionCast;
 import com.xuecheng.framework.model.response.CommonCode;
 import com.xuecheng.framework.model.response.QueryResponseResult;
 import com.xuecheng.framework.model.response.QueryResult;
@@ -44,7 +45,9 @@ public class CmsServiceImpl implements CmsService {
         //1.自定义查询条件匹配器
 
         //1.1 页面别名模糊查询
-        ExampleMatcher matcher = ExampleMatcher.matching().withMatcher("pageAliase", ExampleMatcher.GenericPropertyMatchers.contains());
+        ExampleMatcher matcher = ExampleMatcher.matching().withMatcher("pageAliase", ExampleMatcher.GenericPropertyMatchers.contains())
+                .withMatcher("pageType", ExampleMatcher.GenericPropertyMatchers.exact())
+                .withMatcher("pageName", ExampleMatcher.GenericPropertyMatchers.contains());
         //1.2 封装自定义查询对象
         CmsPage cmsPage = new CmsPage();
         //站点Id
@@ -101,15 +104,23 @@ public class CmsServiceImpl implements CmsService {
      */
     @Override
     public CmsPageResult add(CmsPage cmsPage) {
-        //1.首先校验页面是否存在
-        CmsPage temp = this.cmsPageRepository.findByPageNameAndSiteIdAndPageWebPath(cmsPage.getPageName(), cmsPage.getSiteId(), cmsPage.getPageWebPath());
-        if (temp == null){
-            cmsPage.setPageId(null);
-            this.cmsPageRepository.save(cmsPage);
-            //2.返回结果
-            return new CmsPageResult(CommonCode.SUCCESS, cmsPage);
+        //1.校验cmsPage是否为空
+        if (cmsPage == null){
+            //抛出异常，非法请求
+
         }
-        return new CmsPageResult(CommonCode.FAIL, null);
+        //2.根据页面名称查询（页面名称已在mongodb创建了唯一索引）
+        CmsPage temp = this.cmsPageRepository.findByPageNameAndSiteIdAndPageWebPath(cmsPage.getPageName(), cmsPage.getSiteId(), cmsPage.getPageWebPath());
+        //3.校验页面是否存在，已存在则抛出异常
+        if (temp != null){
+            //抛出异常，已存在相同的页面名称
+            ExceptionCast.cast(CmsCode.CMS_ADDPAGE_EXISTSNAME);
+        }
+        //4.添加页面主键由spring data自动生成
+        cmsPage.setPageId(null);
+        CmsPage save = cmsPageRepository.save(cmsPage);
+        //5.返回结果
+        return new CmsPageResult(CommonCode.SUCCESS, save);
     }
 
     /**

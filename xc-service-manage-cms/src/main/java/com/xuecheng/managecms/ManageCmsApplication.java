@@ -19,6 +19,10 @@ import org.springframework.context.annotation.ComponentScan;
  */
 @ComponentScan(basePackages = {"com.xuecheng.managecms"})
 /**
+ * 扫描common工程下的类
+ */
+@ComponentScan(basePackages = {"com.xuecheng.framework"})
+/**
  * @Author: 98050
  * @Time: 2019-03-19 18:58
  * @Feature: CMS服务启动器
