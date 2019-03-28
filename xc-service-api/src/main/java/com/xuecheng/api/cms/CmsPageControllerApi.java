@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 /**
  * @Author: 98050
  * @Time: 2019-03-19 15:00
- * @Feature: 页面查询接口
+ * @Feature: cms页面管理接口
  */
 @RequestMapping("/cms/page")
 @Api(value = "cms页面管理接口",description = "cms页面管理接口，提供对页面的CRUD")
