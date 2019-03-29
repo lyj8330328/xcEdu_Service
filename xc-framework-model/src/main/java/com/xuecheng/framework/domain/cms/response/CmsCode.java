@@ -32,11 +32,16 @@ public enum CmsCode implements ResultCode {
     /**
      * 保存静态html出错
      */
-    CMS_GENERATEHTML_SAVEHTMLERROR(false,24005,"保存静态html出错！"),
+    CMS_GENERATEHTML_SAVEHTMLERROR(false,24006,"保存静态html出错！"),
     /**
      * 预览页面为空
      */
-    CMS_COURSE_PERVIEWISNULL(false,24007,"预览页面为空！");
+    CMS_COURSE_PERVIEWISNULL(false,24007,"预览页面为空！"),
+
+    /**
+     * 页面不存在
+     */
+    CMS_PAGE_NOTEXISTS(false,24008,"页面不存在");
 
     /**
      * 操作结果
