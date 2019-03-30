@@ -284,7 +284,6 @@ public class CmsServiceImpl implements CmsService {
         if (StringUtils.isEmpty(templateId)){
             ExceptionCast.cast(CmsCode.CMS_GENERATEHTML_TEMPLATEISNULL);
         }
-        System.out.println(templateId);
         //4.查询页面模板
         Optional<CmsTemplate> optional = this.cmsTemplateRepository.findById(templateId);
         if (optional.isPresent()){

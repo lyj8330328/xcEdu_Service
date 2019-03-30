@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @Time: 2019-03-25 21:22
  * @Feature: 异常捕获类
  */
-@ControllerAdvice
+//@ControllerAdvice
 public class ExceptionCatch {
     private static final Logger LOGGER = LoggerFactory.getLogger(ExceptionCatch.class);
 
