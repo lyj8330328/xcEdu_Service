@@ -41,7 +41,12 @@ public enum CmsCode implements ResultCode {
     /**
      * 页面不存在
      */
-    CMS_PAGE_NOTEXISTS(false,24008,"页面不存在");
+    CMS_PAGE_NOTEXISTS(false,24008,"页面不存在"),
+
+    /**
+     * 站点不存在
+     */
+    CMS_SITE_NOTEXISTS(false,24009,"站点不存在");
 
     /**
      * 操作结果

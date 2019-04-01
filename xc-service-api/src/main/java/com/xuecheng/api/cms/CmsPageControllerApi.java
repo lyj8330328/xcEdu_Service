@@ -68,7 +68,7 @@ public interface CmsPageControllerApi {
     /**
      * 根据id修改页面
      * @param id
-     * @param cmsSite
+     * @param cmsPage
      * @return
      */
     @ApiOperation("修改页面")
@@ -80,7 +80,7 @@ public interface CmsPageControllerApi {
             @ApiResponse(code = 10000,message = "操作成功"),
             @ApiResponse(code = 11111,message = "操作失败")
     })
-    CmsPageResult update(@PathVariable String id,@RequestBody CmsSite cmsSite);
+    CmsPageResult update(@PathVariable String id,@RequestBody CmsPage cmsPage);
 
     /**
      * 删除页面
@@ -97,4 +97,20 @@ public interface CmsPageControllerApi {
             @ApiResponse(code = 11111,message = "操作失败")
     })
     ResponseResult delete(@PathVariable String id);
+
+    /**
+     * 页面发布
+     * @param pageId
+     * @return
+     */
+    @ApiOperation("发布页面")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id",value = "页面Id",required = true,paramType = "path",dataType = "String")
+    })
+    @ApiResponses({
+            @ApiResponse(code = 10000,message = "操作成功"),
+            @ApiResponse(code = 11111,message = "操作失败")
+    })
+    @PostMapping("/postPage/{pageId}")
+    ResponseResult post(@PathVariable("pageId") String pageId);
 }

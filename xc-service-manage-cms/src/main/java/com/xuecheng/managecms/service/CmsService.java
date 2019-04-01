@@ -58,4 +58,11 @@ public interface CmsService {
      * @return
      */
     String getPageHtml(String pageId);
+
+    /**
+     * 发布页面
+     * @param pageId
+     * @return
+     */
+    ResponseResult postPage(String pageId);
 }
