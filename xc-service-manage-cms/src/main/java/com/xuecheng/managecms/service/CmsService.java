@@ -65,4 +65,11 @@ public interface CmsService {
      * @return
      */
     ResponseResult postPage(String pageId);
+
+    /**
+     * 发布页面撤销
+     * @param pageId
+     * @return
+     */
+    ResponseResult postPageRollBack(String pageId);
 }

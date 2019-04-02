@@ -113,4 +113,21 @@ public interface CmsPageControllerApi {
     })
     @PostMapping("/postPage/{pageId}")
     ResponseResult post(@PathVariable("pageId") String pageId);
+
+
+    /**
+     * 页面发布撤销
+     * @param pageId
+     * @return
+     */
+    @ApiOperation("发布页面")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id",value = "页面Id",required = true,paramType = "path",dataType = "String")
+    })
+    @ApiResponses({
+            @ApiResponse(code = 10000,message = "操作成功"),
+            @ApiResponse(code = 11111,message = "操作失败")
+    })
+    @PostMapping("/postPage/{pageId}")
+    ResponseResult postRollBack(@PathVariable("pageId") String pageId);
 }

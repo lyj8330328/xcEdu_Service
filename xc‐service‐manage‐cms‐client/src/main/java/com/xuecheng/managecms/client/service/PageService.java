@@ -6,9 +6,11 @@ package com.xuecheng.managecms.client.service;
  * @Feature:
  */
 public interface PageService {
+
     /**
      * 将页面保存到服务器指定路径下
-     * @param pageId
+     * @param pageId 页面id
+     * @param type 发布类型：post或redo
      */
-    void savePageToServerPath(String pageId);
+    void savePageToServerPath(String pageId,String type);
 }

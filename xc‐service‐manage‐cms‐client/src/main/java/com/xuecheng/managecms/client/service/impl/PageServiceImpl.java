@@ -50,9 +50,10 @@ public class PageServiceImpl implements PageService {
     /**
      * 将静态html页面保存到服务器物理路径下
      * @param pageId 页面id
+     * @param type 发布类型
      */
     @Override
-    public void savePageToServerPath(String pageId) {
+    public void savePageToServerPath(String pageId,String type) {
         Optional<CmsPage> optional1 = this.cmsPageRepository.findById(pageId);
         if (!optional1.isPresent()){
             LOGGER.info("get cmsPage by id is null,page id is :{}",pageId);
@@ -75,8 +76,15 @@ public class PageServiceImpl implements PageService {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append(sitePhysicalPath).append(pagePhysicalPath).append(cmsPage.getPageName());
 
-        //4.根据文件id下载html文件
-        String fileId = cmsPage.getHtmlFileId();
+        //4.根据发布类型下载html文件
+        String fileId = null;
+        if ("post".equals(type)) {
+            fileId = cmsPage.getHtmlFileId();
+        }else if ("redo".equals(type)){
+            fileId = cmsPage.getPreHtmlFileId();
+        }else {
+            LOGGER.info("file Id is null");
+        }
         InputStream inputStream = findHtmlFileById(fileId);
         if (inputStream == null){
             LOGGER.info("getFileById InputStream is null,htmlFileId is :{}",fileId);
