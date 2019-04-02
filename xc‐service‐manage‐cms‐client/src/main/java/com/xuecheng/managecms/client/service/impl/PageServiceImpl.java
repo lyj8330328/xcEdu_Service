@@ -69,7 +69,7 @@ public class PageServiceImpl implements PageService {
         }
         //2.取出站点的物理路径
         CmsSite cmsSite = optional2.get();
-        String sitePhysicalPath = cmsSite.getSiteWebPath();
+        String sitePhysicalPath = cmsSite.getSitePhysicalPath();
 
         //3.拼接页面的物理
         StringBuffer stringBuffer = new StringBuffer();
