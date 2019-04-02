@@ -265,13 +265,28 @@ public class CmsServiceImpl implements CmsService {
         //2.保存静态化文件
         CmsPage cmsPage = saveHtml(pageId,pageHtml);
         //3.发送消息到消息队列
-        sendPostPage(cmsPage);
+        sendPostPage(cmsPage,"post");
         return new ResponseResult(CommonCode.SUCCESS);
     }
 
-    private void sendPostPage(CmsPage cmsPage) {
+    /**
+     * 页面发布撤销
+     * @param pageId
+     * @return
+     */
+    @Override
+    public ResponseResult postPageRollBack(String pageId) {
+        //1.校验页面
+        CmsPage cmsPage = this.findById(pageId);
+        //2.发送消息到消息队列
+        sendPostPage(cmsPage,"redo");
+        return new ResponseResult(CommonCode.SUCCESS);
+    }
+
+    private void sendPostPage(CmsPage cmsPage,String type) {
         Map<String,String> map = new HashMap<>();
         map.put("pageId", cmsPage.getPageId());
+        map.put("type", type);
         //1.消息内容
         String msg = JSON.toJSONString(map);
         //2.获取站点id作为routingKey
@@ -295,7 +310,10 @@ public class CmsServiceImpl implements CmsService {
         //2.存储之前先删除
         String htmlFileId = cmsPage.getHtmlFileId();
         if (StringUtils.isNotEmpty(htmlFileId)){
-            this.gridFsTemplate.delete(Query.query(Criteria.where("_id").is(htmlFileId)));
+            if (StringUtils.isNotEmpty(cmsPage.getPreHtmlFileId())){
+                this.gridFsTemplate.delete(Query.query(Criteria.where("_id").is(cmsPage.getPreHtmlFileId())));
+            }
+            cmsPage.setPreHtmlFileId(htmlFileId);
         }
         //3.保存html文件到GridFS中
         InputStream inputStream = null;

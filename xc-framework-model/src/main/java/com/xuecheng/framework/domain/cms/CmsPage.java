@@ -54,6 +54,8 @@ public class CmsPage {
 //    private String templateFileId;
     //静态文件Id
     private String htmlFileId;
+    //上一次静态文件Id
+    private String preHtmlFileId;
     //数据Url
     private String dataUrl;
 

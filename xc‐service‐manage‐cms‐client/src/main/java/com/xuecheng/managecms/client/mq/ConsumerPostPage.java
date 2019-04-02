@@ -36,13 +36,15 @@ public class ConsumerPostPage {
         LOGGER.info("receive cms post page:{}", msg);
         //2.取出页面id
         String pageId = (String) map.get("pageId");
-        //3.查询页面信息
+        //3.取出发布类型
+        String type = (String) map.get("type");
+        //4.查询页面信息
         Optional<CmsPage> optional = cmsPageRepository.findById(pageId);
         if (!optional.isPresent()){
             LOGGER.info("receive cms post page,cmsPage is null:{}",msg);
             return;
         }
-        //4.将页面保存到服务器物理路径下
-        pageService.savePageToServerPath(pageId);
+        //5.根据发布类型，将页面保存到服务器物理路径下
+        this.pageService.savePageToServerPath(pageId,type);
     }
 }

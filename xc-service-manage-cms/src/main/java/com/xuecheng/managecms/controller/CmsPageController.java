@@ -68,4 +68,10 @@ public class CmsPageController implements CmsPageControllerApi {
     public ResponseResult post(@PathVariable("pageId") String pageId) {
         return this.cmsService.postPage(pageId);
     }
+
+    @Override
+    @PostMapping("/redoPage/{pageId}")
+    public ResponseResult postRollBack(@PathVariable("pageId") String pageId) {
+        return this.cmsService.postPageRollBack(pageId);
+    }
 }
