@@ -46,7 +46,20 @@ public enum CmsCode implements ResultCode {
     /**
      * 站点不存在
      */
-    CMS_SITE_NOTEXISTS(false,24009,"站点不存在");
+    CMS_SITE_NOTEXISTS(false,24009,"站点不存在"),
+
+    /**
+     * 数据模型不存在
+     */
+    CMS_CONFIG_NOTEXISTS(false,24010,"数据模型不存在"),
+
+    /**
+     * 数据模型名称已经存在
+     */
+    CMS_ADDCONFIG_EXISTSNAME(false,24011,"数据模型名称已经存在！"),
+
+    CMS_CONFIG_MODEL_ISNULL(false,24012,"数据模型中数据条目为空！");
+
 
     /**
      * 操作结果

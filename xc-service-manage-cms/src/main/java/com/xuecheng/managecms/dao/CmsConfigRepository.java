@@ -9,4 +9,11 @@ import org.springframework.data.mongodb.repository.MongoRepository;
  * @Feature:
  */
 public interface CmsConfigRepository extends MongoRepository<CmsConfig,String> {
+
+    /**
+     * 根据数据模型名称查询
+     * @param name
+     * @return
+     */
+    CmsConfig findByName(String name);
 }

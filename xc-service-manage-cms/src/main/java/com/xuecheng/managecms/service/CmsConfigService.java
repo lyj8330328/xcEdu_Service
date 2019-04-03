@@ -19,8 +19,6 @@ public interface CmsConfigService {
      */
     CmsConfig getConfigById(String id);
 
-
-
     /**
      * 数据模型分页查询
      * @param page 页码
