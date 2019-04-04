@@ -1,6 +1,9 @@
 package com.xuecheng.api.course;
 
+import com.xuecheng.framework.domain.course.Teachplan;
 import com.xuecheng.framework.domain.course.ext.TeachplanNode;
+import com.xuecheng.framework.domain.course.response.TeachPlanResult;
+import com.xuecheng.framework.model.response.ResponseResult;
 import io.swagger.annotations.*;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,5 +23,22 @@ public interface CourseControllerApi {
      * @return
      */
     @ApiOperation("课程计划查询")
-    TeachplanNode findTeachplanList(String courseId);
+    @ApiResponses({
+            @ApiResponse(code = 10000,message = "操作成功"),
+            @ApiResponse(code = 11111,message = "操作失败")
+    })
+    @GetMapping("/teachplan/list/{courseId}")
+    TeachplanNode findTeachplanList(@PathVariable("courseId") String courseId);
+
+    /**
+     * 课程计划添加
+     * @param teachplan
+     * @return
+     */
+    @ApiOperation("课程计划添加")
+    @ApiResponses({
+            @ApiResponse(code = 10000,message = "操作成功"),
+            @ApiResponse(code = 11111,message = "操作失败")
+    })
+    TeachPlanResult add(Teachplan teachplan);
 }

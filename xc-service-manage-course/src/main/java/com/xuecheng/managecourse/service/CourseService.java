@@ -1,6 +1,8 @@
 package com.xuecheng.managecourse.service;
 
+import com.xuecheng.framework.domain.course.Teachplan;
 import com.xuecheng.framework.domain.course.ext.TeachplanNode;
+import com.xuecheng.framework.domain.course.response.TeachPlanResult;
 
 /**
  * @Author: 98050
@@ -15,4 +17,11 @@ public interface CourseService {
      * @return
      */
     TeachplanNode findTeachplanList(String courseId);
+
+    /**
+     * 课程计划添加
+     * @param teachplan
+     * @return
+     */
+    TeachPlanResult add(Teachplan teachplan);
 }
