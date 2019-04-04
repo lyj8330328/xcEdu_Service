@@ -1,5 +1,5 @@
 server:
-  port: 31002
+  port: 31200
 spring:
   application:
     name: xc-service-manage-course

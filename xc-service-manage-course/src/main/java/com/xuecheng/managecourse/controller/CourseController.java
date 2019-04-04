@@ -11,24 +11,19 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @Author: 98050
- * @Time: 2019-04-03 21:42
+ * @Time: 2019-04-03 22:53
  * @Feature:
  */
 @RestController
 @RequestMapping("/course")
-public class CourseController{
+public class CourseController implements CourseControllerApi {
 
-//    @Autowired
-//    public CourseService courseService;
+    @Autowired
+    private CourseService courseService;
 
-    @GetMapping("/test")
-    public String test(){
-        return "test";
+    @Override
+    @GetMapping("/teachplan/list/{courseId}")
+    public TeachplanNode findTeachplanList(@PathVariable("courseId") String courseId) {
+        return courseService.findTeachplanList(courseId);
     }
-
-//    @Override
-//    @GetMapping("/teachplan/list/{courseId}")
-//    public TeachplanNode findTeachplanList(@PathVariable("courseId") String courseId) {
-//        return courseService.findTeachplanList(courseId);
-//    }
 }

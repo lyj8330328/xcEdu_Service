@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xuecheng.managecourse.dao.TeachPlanMapper">
+    
+    <resultMap id="teachPlanMap" type="com.xuecheng.framework.domain.course.ext.TeachplanNode">
+        <id property="id" column="one_id"></id>
+        <result property="pname" column="one_name"></result>
+        <collection property="children" ofType="com.xuecheng.framework.domain.course.ext.TeachplanNode">
+            <id property="id" column="two_id"></id>
+            <result property="pname" column="two_name"></result>
+            <collection property="children" ofType="com.xuecheng.framework.domain.course.ext.TeachplanNode">
+                <id property="id" column="three_id"></id>
+                <result property="pname" column="three_name"></result>
+            </collection>
+        </collection>
+    </resultMap>
+
+    <select id="selectList" parameterType="java.lang.String"
+            resultMap="teachPlanMap">
+        SELECT
+        a.id one_id,
+        a.pname one_name,
+        b.id two_id,
+        b.pname two_name,
+        c.id three_id,
+        c.pname three_name
+        FROM teachplan a LEFT JOIN teachplan b ON a.id = b.parentid LEFT JOIN teachplan c ON b.id = c.parentid
+        WHERE a.parentid = '0'
+        <if test="_parameter != null and _parameter !=''">
+            AND a.courseid = #{courseId}
+        </if>
+        ORDER BY a.orderby,b.orderby,c.orderby
+    </select>
+
+    <resultMap id="BaseTreeResultMap" type="com.xuecheng.framework.domain.course.ext.TeachplanNode">
+        <id property="id" column="id"></id>
+        <result property="pname" column="pname"></result>
+        <collection column="id" property="children" select="getNextNodeTree" ofType="com.xuecheng.framework.domain.course.ext.TeachplanNode">
+
+        </collection>
+    </resultMap>
+
+    <resultMap id="NextTreeResultMap" type="com.xuecheng.framework.domain.course.ext.TeachplanNode">
+        <id property="id" column="id"></id>
+        <result property="pname" column="pname"></result>
+        <collection column="id" property="children" select="getNextNodeTree" ofType="com.xuecheng.framework.domain.course.ext.TeachplanNode">
+
+        </collection>
+    </resultMap>
+
+    <select id="getNextNodeTree" resultMap="NextTreeResultMap">
+        SELECT
+        <include refid="Base_Column_List"></include>
+        FROM teachplan
+        WHERE parentid = #{id}
+        ORDER BY orderby
+    </select>
+
+    <select id="selectList" parameterType="java.lang.String" resultMap="BaseTreeResultMap">
+        SELECT
+        <include refid="Base_Column_List"></include>
+        FROM teachplan
+        WHERE parentid = '0'
+        <if test="_parameter != null and _parameter !=''">
+            AND courseid = #{courseId}
+        </if>
+        ORDER BY orderby
+    </select>
+
+    <sql id="Base_Column_List">
+        id,pname
+    </sql>
+</mapper>

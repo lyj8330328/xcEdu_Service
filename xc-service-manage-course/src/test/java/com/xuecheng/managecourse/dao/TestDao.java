@@ -1,6 +1,8 @@
-package com.xuecheng.managecourse.mapper;
+package com.xuecheng.managecourse.dao;
 
 import com.xuecheng.framework.domain.course.CourseBase;
+import com.xuecheng.framework.domain.course.ext.TeachplanNode;
+import com.xuecheng.managecourse.service.CourseService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +24,7 @@ public class TestDao {
     CourseMapper courseMapper;
 
     @Autowired
-    TeachplanMapper teachplanMapper;
+    CourseService courseService;
     @Test
     public void testCourseBaseRepository(){
         Optional<CourseBase> optional = courseBaseRepository.findById("402885816240d276016240f7e5000002");
@@ -41,7 +43,7 @@ public class TestDao {
     }
 
     @Test
-    public void testTeachplanMapper(){
-        System.out.println(this.courseMapper.findCourseBaseById("4028e581617f945f01617f9dabc40000"));
+    public void test(){
+        TeachplanNode teachplanList = courseService.findTeachplanList("4028e581617f945f01617f9dabc40000");
     }
 }

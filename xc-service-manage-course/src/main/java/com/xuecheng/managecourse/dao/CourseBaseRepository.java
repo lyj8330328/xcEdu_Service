@@ -1,12 +1,10 @@
-package com.xuecheng.managecourse.mapper;
+package com.xuecheng.managecourse.dao;
 
 import com.xuecheng.framework.domain.course.CourseBase;
-import com.xuecheng.framework.domain.course.ext.TeachplanNode;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-
 /**
- * @author 98050
+ * Created by Administrator.
  */
 public interface CourseBaseRepository extends JpaRepository<CourseBase,String> {
 }
