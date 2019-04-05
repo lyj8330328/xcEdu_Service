@@ -4,6 +4,7 @@ import com.xuecheng.api.course.CourseControllerApi;
 import com.xuecheng.framework.domain.course.Teachplan;
 import com.xuecheng.framework.domain.course.ext.TeachplanNode;
 import com.xuecheng.framework.domain.course.response.TeachPlanResult;
+import com.xuecheng.framework.model.response.ResponseResult;
 import com.xuecheng.managecourse.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -30,5 +31,15 @@ public class CourseController implements CourseControllerApi {
     @PostMapping("/teachplan/add")
     public TeachPlanResult add(@RequestBody Teachplan teachplan) {
         return this.courseService.add(teachplan);
+    }
+
+    @Override
+    public TeachPlanResult edit(Teachplan teachplan) {
+        return null;
+    }
+
+    @Override
+    public ResponseResult delete(Teachplan teachplan) {
+        return null;
     }
 }

@@ -7,13 +7,21 @@ import com.xuecheng.framework.domain.course.response.CourseCode;
 import com.xuecheng.framework.domain.course.response.TeachPlanResult;
 import com.xuecheng.framework.exception.ExceptionCast;
 import com.xuecheng.framework.model.response.CommonCode;
+import com.xuecheng.framework.model.response.ResponseResult;
 import com.xuecheng.managecourse.dao.CourseBaseRepository;
 import com.xuecheng.managecourse.dao.TeachPlanMapper;
 import com.xuecheng.managecourse.dao.TeachPlanRepository;
 import com.xuecheng.managecourse.service.CourseService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import java.util.List;
 import java.util.Optional;
@@ -26,14 +34,18 @@ import java.util.Optional;
 @Service
 public class CourseServiceImpl implements CourseService {
 
-    @Autowired
-    public TeachPlanMapper teachPlanMapper;
+    private final TeachPlanMapper teachPlanMapper;
+
+    private final CourseBaseRepository courseBaseRepository;
+
+    private final TeachPlanRepository teachPlanRepository;
 
     @Autowired
-    public CourseBaseRepository courseBaseRepository;
-
-    @Autowired
-    public TeachPlanRepository teachPlanRepository;
+    public CourseServiceImpl(TeachPlanMapper teachPlanMapper, CourseBaseRepository courseBaseRepository, TeachPlanRepository teachPlanRepository) {
+        this.teachPlanMapper = teachPlanMapper;
+        this.courseBaseRepository = courseBaseRepository;
+        this.teachPlanRepository = teachPlanRepository;
+    }
 
     /**
      * 课程计划查询
@@ -52,45 +64,67 @@ public class CourseServiceImpl implements CourseService {
      * @return
      */
     @Override
+    @Transactional(propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
     public TeachPlanResult add(Teachplan teachplan) {
         //1.校验参数对象
-        if (teachplan == null){
+        if (teachplan == null) {
             ExceptionCast.cast(CourseCode.COURSE_PLAN_ADD_PARAMETERISNULL);
         }
         //2.取出课程id
         String courseId = teachplan.getCourseid();
-        if (StringUtils.isEmpty(courseId)){
+        if (StringUtils.isEmpty(courseId)) {
             ExceptionCast.cast(CourseCode.COURSE_PLAN_ADD_COURSEIDISNULL);
         }
-        //3.取出父节点id
+        //3.根据课程id和课程计划名称进行校验
+        List<Teachplan> list = this.teachPlanRepository.findByCourseidAndPname(courseId, teachplan.getPname());
+        if (list.size() != 0){
+            ExceptionCast.cast(CourseCode.COURSE_PLAN_ADD_PLANNAMEISEXISTS);
+        }
+        //4.取出父节点id
         String parentId = teachplan.getParentid();
-        if (StringUtils.isEmpty(parentId)){
+        if (StringUtils.isEmpty(parentId)) {
             parentId = getTeachPlanRoot(courseId);
         }
-        //4.获取父节点信息
+        //5.获取父节点信息
         Optional<Teachplan> optional = this.teachPlanRepository.findById(parentId);
-        if (!optional.isPresent()){
+        if (!optional.isPresent()) {
             ExceptionCast.cast(CourseCode.COURSE_PLAN_ADD_PARENTNODEISNULL);
         }
         Teachplan parentNode = optional.get();
-        //5.设置父节点
+        //6.设置父节点
         teachplan.setParentid(parentId);
-        //6.未发布
+        //7.未发布
         teachplan.setStatus("0");
-        //7.设置子节点的级别，根据父节点来判断
+        //8.设置子节点的级别，根据父节点来判断
         String level1 = "1";
         String level2 = "2";
         String level3 = "3";
-        if (level1.equals(parentNode.getGrade())){
+        if (level1.equals(parentNode.getGrade())) {
             teachplan.setGrade(level2);
-        }else if (level2.equals(parentNode.getGrade())){
+        } else if (level2.equals(parentNode.getGrade())) {
             teachplan.setGrade(level3);
         }
-        //8.设置课程id
+        //9.设置课程id
         teachplan.setCourseid(parentNode.getCourseid());
-        //9.保存
+        //10.保存
         Teachplan save = this.teachPlanRepository.save(teachplan);
-        return new TeachPlanResult(CommonCode.SUCCESS,save);
+        return new TeachPlanResult(CommonCode.SUCCESS, save);
+    }
+
+    /**
+     * 课程计划修改
+     * @param teachplan
+     * @return
+     */
+    @Override
+    public TeachPlanResult edit(Teachplan teachplan) {
+        this.teachPlanRepository.save(teachplan);
+        return null;
+    }
+
+    @Override
+    public ResponseResult delete(String id) {
+        return null;
     }
 
     /**

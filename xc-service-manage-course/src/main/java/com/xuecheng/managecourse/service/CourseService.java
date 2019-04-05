@@ -3,6 +3,7 @@ package com.xuecheng.managecourse.service;
 import com.xuecheng.framework.domain.course.Teachplan;
 import com.xuecheng.framework.domain.course.ext.TeachplanNode;
 import com.xuecheng.framework.domain.course.response.TeachPlanResult;
+import com.xuecheng.framework.model.response.ResponseResult;
 
 /**
  * @Author: 98050
@@ -24,4 +25,18 @@ public interface CourseService {
      * @return
      */
     TeachPlanResult add(Teachplan teachplan);
+
+    /**
+     * 课程计划修改
+     * @param teachplan
+     * @return
+     */
+    TeachPlanResult edit(Teachplan teachplan);
+
+    /**
+     * 课程计划删除
+     * @param id
+     * @return
+     */
+    ResponseResult delete(String id);
 }

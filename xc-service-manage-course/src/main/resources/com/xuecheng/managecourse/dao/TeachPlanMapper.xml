@@ -32,42 +32,42 @@
         ORDER BY a.orderby,b.orderby,c.orderby
     </select>
 
-    <resultMap id="BaseTreeResultMap" type="com.xuecheng.framework.domain.course.ext.TeachplanNode">
-        <id property="id" column="id"></id>
-        <result property="pname" column="pname"></result>
-        <collection column="id" property="children" select="getNextNodeTree" ofType="com.xuecheng.framework.domain.course.ext.TeachplanNode">
+    <!--<resultMap id="BaseTreeResultMap" type="com.xuecheng.framework.domain.course.ext.TeachplanNode">-->
+        <!--<id property="id" column="id"></id>-->
+        <!--<result property="pname" column="pname"></result>-->
+        <!--<collection column="id" property="children" select="getNextNodeTree" ofType="com.xuecheng.framework.domain.course.ext.TeachplanNode">-->
 
-        </collection>
-    </resultMap>
+        <!--</collection>-->
+    <!--</resultMap>-->
 
-    <resultMap id="NextTreeResultMap" type="com.xuecheng.framework.domain.course.ext.TeachplanNode">
-        <id property="id" column="id"></id>
-        <result property="pname" column="pname"></result>
-        <collection column="id" property="children" select="getNextNodeTree" ofType="com.xuecheng.framework.domain.course.ext.TeachplanNode">
+    <!--<resultMap id="NextTreeResultMap" type="com.xuecheng.framework.domain.course.ext.TeachplanNode">-->
+        <!--<id property="id" column="id"></id>-->
+        <!--<result property="pname" column="pname"></result>-->
+        <!--<collection column="id" property="children" select="getNextNodeTree" ofType="com.xuecheng.framework.domain.course.ext.TeachplanNode">-->
 
-        </collection>
-    </resultMap>
+        <!--</collection>-->
+    <!--</resultMap>-->
 
-    <select id="getNextNodeTree" resultMap="NextTreeResultMap">
-        SELECT
-        <include refid="Base_Column_List"></include>
-        FROM teachplan
-        WHERE parentid = #{id}
-        ORDER BY orderby
-    </select>
+    <!--<select id="getNextNodeTree" resultMap="NextTreeResultMap">-->
+        <!--SELECT-->
+        <!--<include refid="Base_Column_List"></include>-->
+        <!--FROM teachplan-->
+        <!--WHERE parentid = #{id}-->
+        <!--ORDER BY orderby-->
+    <!--</select>-->
 
-    <select id="selectList" parameterType="java.lang.String" resultMap="BaseTreeResultMap">
-        SELECT
-        <include refid="Base_Column_List"></include>
-        FROM teachplan
-        WHERE parentid = '0'
-        <if test="_parameter != null and _parameter !=''">
-            AND courseid = #{courseId}
-        </if>
-        ORDER BY orderby
-    </select>
+    <!--<select id="selectList" parameterType="java.lang.String" resultMap="BaseTreeResultMap">-->
+        <!--SELECT-->
+        <!--<include refid="Base_Column_List"></include>-->
+        <!--FROM teachplan-->
+        <!--WHERE parentid = '0'-->
+        <!--<if test="_parameter != null and _parameter !=''">-->
+            <!--AND courseid = #{courseId}-->
+        <!--</if>-->
+        <!--ORDER BY orderby-->
+    <!--</select>-->
 
-    <sql id="Base_Column_List">
-        id,pname
-    </sql>
+    <!--<sql id="Base_Column_List">-->
+        <!--id,pname-->
+    <!--</sql>-->
 </mapper>

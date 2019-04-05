@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSON;
 import com.mongodb.client.gridfs.GridFSBucket;
 import com.mongodb.client.gridfs.GridFSDownloadStream;
 import com.mongodb.client.gridfs.model.GridFSFile;
-import com.sun.tracing.Probe;
 import com.xuecheng.framework.domain.cms.CmsPage;
 import com.xuecheng.framework.domain.cms.CmsTemplate;
 import com.xuecheng.framework.domain.cms.request.QueryPageRequest;
@@ -22,7 +21,6 @@ import com.xuecheng.managecms.service.CmsService;
 import freemarker.cache.StringTemplateLoader;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
-import freemarker.template.TemplateException;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.bson.types.ObjectId;
@@ -38,8 +36,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
@@ -54,23 +50,27 @@ import java.util.Optional;
 @Service
 public class CmsServiceImpl implements CmsService {
 
-    @Autowired
-    private CmsPageRepository cmsPageRepository;
+    private final CmsPageRepository cmsPageRepository;
+
+    private final RestTemplate restTemplate;
+
+    private final CmsTemplateRepository cmsTemplateRepository;
+
+    private final GridFsTemplate gridFsTemplate;
+
+    private final GridFSBucket gridFSBucket;
+
+    private final RabbitTemplate rabbitTemplate;
 
     @Autowired
-    private RestTemplate restTemplate;
-
-    @Autowired
-    private CmsTemplateRepository cmsTemplateRepository;
-
-    @Autowired
-    private GridFsTemplate gridFsTemplate;
-
-    @Autowired
-    private GridFSBucket gridFSBucket;
-
-    @Autowired
-    private RabbitTemplate rabbitTemplate;
+    public CmsServiceImpl(RabbitTemplate rabbitTemplate, GridFSBucket gridFSBucket, GridFsTemplate gridFsTemplate, CmsTemplateRepository cmsTemplateRepository, RestTemplate restTemplate, CmsPageRepository cmsPageRepository) {
+        this.rabbitTemplate = rabbitTemplate;
+        this.gridFSBucket = gridFSBucket;
+        this.gridFsTemplate = gridFsTemplate;
+        this.cmsTemplateRepository = cmsTemplateRepository;
+        this.restTemplate = restTemplate;
+        this.cmsPageRepository = cmsPageRepository;
+    }
 
     /**
      *

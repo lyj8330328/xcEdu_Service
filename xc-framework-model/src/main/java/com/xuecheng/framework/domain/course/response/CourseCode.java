@@ -7,8 +7,9 @@ import lombok.ToString;
 
 
 /**
- * Created by admin on 2018/3/5.
+ * @author 98050
  */
+
 @ToString
 public enum CourseCode implements ResultCode {
     /**
@@ -25,7 +26,8 @@ public enum CourseCode implements ResultCode {
     COURSE_PLAN_ADD_PARAMETERISNULL(false,31111,"课程计划添加参数为空！"),
     COURSE_PLAN_ADD_COURSEIDISNULL(false,31112,"课程Id为空！"),
     COURSE_PLAN_ADD_COURSEISNULL(false,31113,"课程不存在！"),
-    COURSE_PLAN_ADD_PARENTNODEISNULL(false,31114,"父结点不存在！");
+    COURSE_PLAN_ADD_PARENTNODEISNULL(false,31114,"父结点不存在！"),
+    COURSE_PLAN_ADD_PLANNAMEISEXISTS(false,31115,"课程计划名称已存在！");
 
     //操作代码
     @ApiModelProperty(value = "操作是否成功", example = "true", required = true)
