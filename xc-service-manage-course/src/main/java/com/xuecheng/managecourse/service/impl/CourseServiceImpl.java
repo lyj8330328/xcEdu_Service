@@ -1,27 +1,30 @@
 package com.xuecheng.managecourse.service.impl;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.xuecheng.framework.domain.course.CourseBase;
 import com.xuecheng.framework.domain.course.Teachplan;
+import com.xuecheng.framework.domain.course.ext.CourseInfo;
 import com.xuecheng.framework.domain.course.ext.TeachplanNode;
+import com.xuecheng.framework.domain.course.request.CourseListRequest;
 import com.xuecheng.framework.domain.course.response.CourseCode;
 import com.xuecheng.framework.domain.course.response.TeachPlanResult;
 import com.xuecheng.framework.exception.ExceptionCast;
 import com.xuecheng.framework.model.response.CommonCode;
+import com.xuecheng.framework.model.response.QueryResponseResult;
+import com.xuecheng.framework.model.response.QueryResult;
 import com.xuecheng.framework.model.response.ResponseResult;
 import com.xuecheng.managecourse.dao.CourseBaseRepository;
+import com.xuecheng.managecourse.dao.CourseMapper;
 import com.xuecheng.managecourse.dao.TeachPlanMapper;
 import com.xuecheng.managecourse.dao.TeachPlanRepository;
 import com.xuecheng.managecourse.service.CourseService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
-import org.springframework.orm.jpa.JpaTransactionManager;
+
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.TransactionDefinition;
-import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import java.util.List;
 import java.util.Optional;
@@ -40,11 +43,14 @@ public class CourseServiceImpl implements CourseService {
 
     private final TeachPlanRepository teachPlanRepository;
 
+    private final CourseMapper courseMapper;
+
     @Autowired
-    public CourseServiceImpl(TeachPlanMapper teachPlanMapper, CourseBaseRepository courseBaseRepository, TeachPlanRepository teachPlanRepository) {
+    public CourseServiceImpl(TeachPlanMapper teachPlanMapper, CourseBaseRepository courseBaseRepository, TeachPlanRepository teachPlanRepository, CourseMapper courseMapper) {
         this.teachPlanMapper = teachPlanMapper;
         this.courseBaseRepository = courseBaseRepository;
         this.teachPlanRepository = teachPlanRepository;
+        this.courseMapper = courseMapper;
     }
 
     /**
@@ -125,6 +131,29 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public ResponseResult delete(String id) {
         return null;
+    }
+
+    /**
+     * 分页查询课程
+     * @param page
+     * @param size
+     * @param courseListRequest
+     * @return
+     */
+    @Override
+    public QueryResponseResult queryByPage(int page, int size, CourseListRequest courseListRequest) {
+        //1.分页
+        PageHelper.startPage(page,size);
+        //2.构建查询条件
+        if (StringUtils.isEmpty(courseListRequest.getCompanyId())){
+            ExceptionCast.cast(CourseCode.COURSE_COMPANYISNULL);
+        }
+        Page<CourseInfo> courseInfos = this.courseMapper.findCourseListPage(courseListRequest);
+        List<CourseInfo> list = courseInfos.getResult();
+        QueryResult<CourseInfo> queryResult = new QueryResult<>();
+        queryResult.setTotal(courseInfos.getTotal());
+        queryResult.setList(list);
+        return new QueryResponseResult(CommonCode.SUCCESS,queryResult);
     }
 
     /**

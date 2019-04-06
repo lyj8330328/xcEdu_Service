@@ -3,7 +3,9 @@ package com.xuecheng.managecourse.controller;
 import com.xuecheng.api.course.CourseControllerApi;
 import com.xuecheng.framework.domain.course.Teachplan;
 import com.xuecheng.framework.domain.course.ext.TeachplanNode;
+import com.xuecheng.framework.domain.course.request.CourseListRequest;
 import com.xuecheng.framework.domain.course.response.TeachPlanResult;
+import com.xuecheng.framework.model.response.QueryResponseResult;
 import com.xuecheng.framework.model.response.ResponseResult;
 import com.xuecheng.managecourse.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,5 +43,11 @@ public class CourseController implements CourseControllerApi {
     @Override
     public ResponseResult delete(Teachplan teachplan) {
         return null;
+    }
+
+    @Override
+    @GetMapping("/list/{page}/{size}")
+    public QueryResponseResult findCourseList(@PathVariable("page") int page, @PathVariable("size") int size, CourseListRequest courseListRequest) {
+        return this.courseService.queryByPage(page, size, courseListRequest);
     }
 }
