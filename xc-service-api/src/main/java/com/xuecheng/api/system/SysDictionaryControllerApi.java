@@ -28,6 +28,6 @@ public interface SysDictionaryControllerApi {
             @ApiResponse(code = 10000,message = "操作成功"),
             @ApiResponse(code = 11111,message = "操作失败")
     })
-    @GetMapping("dictionary/get/{type}")
+    @GetMapping("/dictionary/{type}")
     SysDictionary getByType(@PathVariable("type") String type);
 }

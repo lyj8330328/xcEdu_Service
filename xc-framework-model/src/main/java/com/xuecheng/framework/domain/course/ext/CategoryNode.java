@@ -1,5 +1,6 @@
 package com.xuecheng.framework.domain.course.ext;
 
+import com.fasterxml.jackson.annotation.JsonFilter;
 import com.xuecheng.framework.domain.course.Category;
 import lombok.Data;
 import lombok.ToString;

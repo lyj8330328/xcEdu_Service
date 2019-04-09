@@ -6,6 +6,8 @@ import com.xuecheng.managecourse.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @Author: 98050
  * @Time: 2019-04-08 16:55
@@ -22,7 +24,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public CategoryNode findCourseCategoryList() {
+    public List<CategoryNode> findCourseCategoryList() {
         return this.categoryMapper.selectList();
     }
 }

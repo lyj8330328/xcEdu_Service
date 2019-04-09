@@ -1,8 +1,8 @@
 server:
-  port: 31002
+  port: 32000
 spring:
   application:
-    name: xc-service-manage-cms
+    name: xc-service-sys-dictionary
   data:
     mongodb:
       uri: mongodb://root:root@localhost:27017

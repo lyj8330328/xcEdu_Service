@@ -6,6 +6,8 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.List;
+
 /**
  * @Author: 98050
  * @Time: 2019-04-08 15:53
@@ -21,5 +23,5 @@ public interface CategoryControllerApi {
      */
     @ApiOperation("查询分类")
     @GetMapping("list")
-    CategoryNode findList();
+    List<CategoryNode> findList();
 }

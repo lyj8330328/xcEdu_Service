@@ -3,6 +3,8 @@ package com.xuecheng.managecourse.dao;
 import com.xuecheng.framework.domain.course.ext.CategoryNode;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 
 /**
  * @Author: 98050
@@ -16,5 +18,5 @@ public interface CategoryMapper {
      * 查询所有课程分类
      * @return
      */
-    CategoryNode selectList();
+    List<CategoryNode> selectList();
 }

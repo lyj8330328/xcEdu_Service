@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 /**
  * @Author: 98050
  * @Time: 2019-04-08 17:30
@@ -26,7 +28,7 @@ public class CategoryController implements CategoryControllerApi {
 
     @Override
     @GetMapping("list")
-    public CategoryNode findList() {
+    public List<CategoryNode> findList() {
         return this.categoryService.findCourseCategoryList();
     }
 }
