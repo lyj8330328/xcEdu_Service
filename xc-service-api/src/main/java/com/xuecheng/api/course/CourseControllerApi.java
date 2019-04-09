@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
  * @Feature:
  */
 @RequestMapping("/course")
-@Api(value = "课程管理接口",description = "课程管理接口")
+@Api(value = "课程管理接口",description = "课程管理接口",tags = {"课程管理接口"})
 public interface CourseControllerApi {
     /**
      * 课程计划查询

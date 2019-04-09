@@ -20,8 +20,12 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/course")
 public class CourseController implements CourseControllerApi {
 
+    private final CourseService courseService;
+
     @Autowired
-    private CourseService courseService;
+    public CourseController(CourseService courseService) {
+        this.courseService = courseService;
+    }
 
     @Override
     @GetMapping("/teachplan/list/{courseId}")
@@ -46,7 +50,7 @@ public class CourseController implements CourseControllerApi {
     }
 
     @Override
-    @GetMapping("/list/{page}/{size}")
+    @GetMapping("coursebase/list/{page}/{size}")
     public QueryResponseResult findCourseList(@PathVariable("page") int page, @PathVariable("size") int size, CourseListRequest courseListRequest) {
         return this.courseService.queryByPage(page, size, courseListRequest);
     }

@@ -12,6 +12,8 @@
         <option value="$PROJECT_DIR$/testfreemarker/pom.xml" />
         <option value="$PROJECT_DIR$/xc‐service‐manage‐cms‐client/pom.xml" />
         <option value="$PROJECT_DIR$/xc-service-manage-course/pom.xml" />
+        <option value="$PROJECT_DIR$/xc-service-manage-sys-dictonary/pom.xml" />
+        <option value="$PROJECT_DIR$/xc-service-manage-sys-dictionary/pom.xml" />
       </list>
     </option>
   </component>

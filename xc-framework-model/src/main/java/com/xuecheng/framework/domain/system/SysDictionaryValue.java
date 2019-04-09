@@ -6,8 +6,9 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+
 /**
- * Created by admin on 2018/2/6.
+ * @author 98050
  */
 @Data
 @ToString

@@ -2,7 +2,6 @@ package com.xuecheng.managecms.service.impl;
 
 import com.xuecheng.framework.domain.cms.CmsConfig;
 import com.xuecheng.framework.domain.cms.CmsConfigModel;
-import com.xuecheng.framework.domain.cms.CmsSite;
 import com.xuecheng.framework.domain.cms.response.CmsCode;
 import com.xuecheng.framework.domain.cms.response.CmsConfigResult;
 import com.xuecheng.framework.exception.ExceptionCast;

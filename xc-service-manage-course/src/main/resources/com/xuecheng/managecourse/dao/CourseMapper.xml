@@ -6,10 +6,9 @@
         select * from course_base where id = #{id}
     </select>
 
-    <select id="findCourseListPage" resultType="com.xuecheng.framework.domain.course.ext.CourseInfo" parameterType="java.lang.String">
-        SELECT
-        course_base.*,(SELECT pic FROM course_pic WHERE courseid = course_base.id) pic
-        FROM course_base
-        WHERE company_id = #{courseListRequest.companyId}
+    <select id="findCourseListPage" resultType="com.xuecheng.framework.domain.course.ext.CourseInfo" parameterType="com.xuecheng.framework.domain.course.request.CourseListRequest">
+        SELECT course_base.*,pic
+        FROM course_base,course_pic
+        WHERE id = courseid AND course_base.company_id = #{companyId}
     </select>
 </mapper>
