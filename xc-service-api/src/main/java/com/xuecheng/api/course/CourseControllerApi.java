@@ -1,8 +1,10 @@
 package com.xuecheng.api.course;
 
+import com.xuecheng.framework.domain.course.CourseBase;
 import com.xuecheng.framework.domain.course.Teachplan;
 import com.xuecheng.framework.domain.course.ext.TeachplanNode;
 import com.xuecheng.framework.domain.course.request.CourseListRequest;
+import com.xuecheng.framework.domain.course.response.AddCourseResult;
 import com.xuecheng.framework.domain.course.response.TeachPlanResult;
 import com.xuecheng.framework.model.response.QueryResponseResult;
 import com.xuecheng.framework.model.response.ResponseResult;
@@ -88,4 +90,23 @@ public interface CourseControllerApi {
     })
     @GetMapping("/list/{page}/{size}")
     QueryResponseResult findCourseList(@PathVariable("page") int page, @PathVariable("size") int size, CourseListRequest courseListRequest);
+
+
+    /**
+     * 课程信息添加
+     * @param courseBase
+     * @return
+     */
+    @ApiOperation("课程信息添加")
+    @PostMapping("/coursebase/add")
+    AddCourseResult courseAdd(@RequestBody CourseBase courseBase);
+
+    /**
+     * 根据id查询课程信息
+     * @param id
+     * @return
+     */
+    @ApiOperation("根据id查询课程信息")
+    @GetMapping("/coursebase/{id}")
+    CourseBase getCoureseById(@PathVariable("id") String id);
 }

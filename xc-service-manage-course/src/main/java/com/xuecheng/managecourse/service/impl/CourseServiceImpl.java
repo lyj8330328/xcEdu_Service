@@ -7,6 +7,7 @@ import com.xuecheng.framework.domain.course.Teachplan;
 import com.xuecheng.framework.domain.course.ext.CourseInfo;
 import com.xuecheng.framework.domain.course.ext.TeachplanNode;
 import com.xuecheng.framework.domain.course.request.CourseListRequest;
+import com.xuecheng.framework.domain.course.response.AddCourseResult;
 import com.xuecheng.framework.domain.course.response.CourseCode;
 import com.xuecheng.framework.domain.course.response.TeachPlanResult;
 import com.xuecheng.framework.exception.ExceptionCast;
@@ -154,6 +155,34 @@ public class CourseServiceImpl implements CourseService {
         queryResult.setTotal(courseInfos.getTotal());
         queryResult.setList(list);
         return new QueryResponseResult(CommonCode.SUCCESS,queryResult);
+    }
+
+    /**
+     * 课程添加
+     * @param courseBase
+     * @return
+     */
+    @Override
+    public AddCourseResult courseAdd(CourseBase courseBase) {
+        if (courseBase == null){
+            ExceptionCast.cast(CourseCode.COURSE_ADD_PARAMTERISNULL);
+        }
+        CourseBase save = this.courseBaseRepository.save(courseBase);
+        return new AddCourseResult(CommonCode.SUCCESS, save.getId());
+    }
+
+    /**
+     * 根据id查询课程信息
+     * @param id
+     * @return
+     */
+    @Override
+    public CourseBase getCourseById(String id) {
+        Optional<CourseBase> optional = this.courseBaseRepository.findById(id);
+        if (!optional.isPresent()){
+            ExceptionCast.cast(CourseCode.COURSE_GET_ISNULL);
+        }
+        return optional.get();
     }
 
     /**

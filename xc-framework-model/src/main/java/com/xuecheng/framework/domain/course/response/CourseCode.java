@@ -24,11 +24,22 @@ public enum CourseCode implements ResultCode {
     COURSE_MEDIS_NAMEISNULL(false,31102,"选择的媒资文件名称为空！"),
     COURSE_COMPANYISNULL(false,31005,"机构id为空"),
 
+
+    COURSE_ADD_PARAMTERISNULL(false,32111,"课程参数为空！"),
+    COURSE_ADD_NAMEISNULL(false,32112,"课程名称为空！"),
+    COURSE_ADD_NAMEEXISTS(false,32113,"课程名称为空！"),
+
+
+    COURSE_GET_ISNULL(false,32114,"课程信息为空！"),
+
+
     COURSE_PLAN_ADD_PARAMETERISNULL(false,31111,"课程计划添加参数为空！"),
     COURSE_PLAN_ADD_COURSEIDISNULL(false,31112,"课程Id为空！"),
     COURSE_PLAN_ADD_COURSEISNULL(false,31113,"课程不存在！"),
     COURSE_PLAN_ADD_PARENTNODEISNULL(false,31114,"父结点不存在！"),
     COURSE_PLAN_ADD_PLANNAMEISEXISTS(false,31115,"课程计划名称已存在！");
+
+
 
     //操作代码
     @ApiModelProperty(value = "操作是否成功", example = "true", required = true)
