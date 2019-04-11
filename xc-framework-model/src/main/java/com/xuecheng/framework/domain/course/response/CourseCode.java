@@ -22,7 +22,7 @@ public enum CourseCode implements ResultCode {
     COURSE_PUBLISH_VIEWERROR(false,31005,"发布课程视图出错！"),
     COURSE_MEDIS_URLISNULL(false,31101,"选择的媒资文件访问地址为空！"),
     COURSE_MEDIS_NAMEISNULL(false,31102,"选择的媒资文件名称为空！"),
-    COURSE_COMPANYISNULL(false,31005,"机构id为空"),
+    COURSE_COMPANYISNULL(false,31006,"机构id为空"),
 
 
     COURSE_ADD_PARAMTERISNULL(false,32111,"课程参数为空！"),
@@ -31,6 +31,18 @@ public enum CourseCode implements ResultCode {
 
 
     COURSE_GET_ISNULL(false,32114,"课程信息为空！"),
+
+    COURSE_NAME_ISNULL(false,32115,"课程名称为空"),
+    COURSE_USERS_ISNULL(false,32116,"适用人群为空"),
+    COURSE_MT_ISNULL(false,32117,"课程分类为空"),
+    COURSE_GRADE_ISNULL(false,32118,"课程等级为空"),
+    COURSE_STUDYMODEL_ISNULL(false,32119,"课程学习模式为空"),
+    COURSE_TEACHMODEL_ISNULL(false,32120,"授课模式为空"),
+    COURSE_DESCRIPTION_ISNULL(false,32121,"课程描述为空"),
+    COURSE_ST_ISNULL(false,32122,"课程分类为空"),
+    COURSE_STATUS_ISNULL(false,32123,"课程状态为空"),
+    COURSE_COMPANYID_ISNULL(false,32124,"教育机构ID为空"),
+    COURSE_USERID_ISNULL(false,32125,"创建用户为空"),
 
 
     COURSE_PLAN_ADD_PARAMETERISNULL(false,31111,"课程计划添加参数为空！"),

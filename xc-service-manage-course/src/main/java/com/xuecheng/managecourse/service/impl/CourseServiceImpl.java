@@ -10,6 +10,7 @@ import com.xuecheng.framework.domain.course.request.CourseListRequest;
 import com.xuecheng.framework.domain.course.response.AddCourseResult;
 import com.xuecheng.framework.domain.course.response.CourseCode;
 import com.xuecheng.framework.domain.course.response.TeachPlanResult;
+import com.xuecheng.framework.domain.course.response.UpdateCourseResult;
 import com.xuecheng.framework.exception.ExceptionCast;
 import com.xuecheng.framework.model.response.CommonCode;
 import com.xuecheng.framework.model.response.QueryResponseResult;
@@ -183,6 +184,81 @@ public class CourseServiceImpl implements CourseService {
             ExceptionCast.cast(CourseCode.COURSE_GET_ISNULL);
         }
         return optional.get();
+    }
+
+    /**
+     * 修改课程信息
+     * @param courseBase
+     * @return
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class,propagation = Propagation.REQUIRED)
+    public UpdateCourseResult courseUpdate(CourseBase courseBase) {
+        if (courseBase == null){
+            ExceptionCast.cast(CourseCode.COURSE_GET_ISNULL);
+        }
+        Optional<CourseBase> optional = this.courseBaseRepository.findById(courseBase.getId());
+        if (!optional.isPresent()){
+            ExceptionCast.cast(CourseCode.COURSE_GET_ISNULL);
+        }
+        CourseBase update = optional.get();
+        if (StringUtils.isEmpty(courseBase.getCompanyId())){
+            ExceptionCast.cast(CourseCode.COURSE_COMPANYISNULL);
+        }else {
+            update.setCompanyId(courseBase.getCompanyId());
+        }
+        if (StringUtils.isEmpty(courseBase.getDescription())){
+            ExceptionCast.cast(CourseCode.COURSE_DESCRIPTION_ISNULL);
+        }else {
+            update.setDescription(courseBase.getDescription());
+        }
+        if (StringUtils.isEmpty(courseBase.getGrade())){
+            ExceptionCast.cast(CourseCode.COURSE_GRADE_ISNULL);
+        }else {
+            update.setGrade(courseBase.getGrade());
+        }
+        if (StringUtils.isEmpty(courseBase.getMt())){
+            ExceptionCast.cast(CourseCode.COURSE_MT_ISNULL);
+        }else {
+            update.setMt(courseBase.getMt());
+        }
+        if (StringUtils.isEmpty(courseBase.getName())){
+            ExceptionCast.cast(CourseCode.COURSE_NAME_ISNULL);
+        }else {
+            update.setName(courseBase.getName());
+        }
+        if (StringUtils.isEmpty(courseBase.getSt())){
+            ExceptionCast.cast(CourseCode.COURSE_ST_ISNULL);
+        }else {
+            update.setSt(courseBase.getSt());
+        }
+        if (StringUtils.isEmpty(courseBase.getStatus())){
+            ExceptionCast.cast(CourseCode.COURSE_STATUS_ISNULL);
+        }else {
+            update.setStatus(courseBase.getStatus());
+        }
+        if (StringUtils.isEmpty(courseBase.getStudymodel())){
+            ExceptionCast.cast(CourseCode.COURSE_STUDYMODEL_ISNULL);
+        }else {
+            update.setStudymodel(courseBase.getStudymodel());
+        }
+//        if (StringUtils.isEmpty(courseBase.getTeachmode())){
+//            ExceptionCast.cast(CourseCode.COURSE_TEACHMODEL_ISNULL);
+//        }else {
+//            update.setTeachmode(courseBase.getTeachmode());
+//        }
+//        if (StringUtils.isEmpty(courseBase.getUserId())){
+//            ExceptionCast.cast(CourseCode.COURSE_USERID_ISNULL);
+//        }else {
+//            update.setUserId(courseBase.getUserId());
+//        }
+        if (StringUtils.isEmpty(courseBase.getUsers())){
+            ExceptionCast.cast(CourseCode.COURSE_USERS_ISNULL);
+        }else {
+            update.setUsers(courseBase.getUsers());
+        }
+        CourseBase base = this.courseBaseRepository.saveAndFlush(update);
+        return new UpdateCourseResult(base, CommonCode.SUCCESS);
     }
 
     /**

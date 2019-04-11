@@ -6,6 +6,7 @@ import com.xuecheng.framework.domain.course.ext.TeachplanNode;
 import com.xuecheng.framework.domain.course.request.CourseListRequest;
 import com.xuecheng.framework.domain.course.response.AddCourseResult;
 import com.xuecheng.framework.domain.course.response.TeachPlanResult;
+import com.xuecheng.framework.domain.course.response.UpdateCourseResult;
 import com.xuecheng.framework.model.response.QueryResponseResult;
 import com.xuecheng.framework.model.response.ResponseResult;
 import io.swagger.annotations.*;
@@ -109,4 +110,14 @@ public interface CourseControllerApi {
     @ApiOperation("根据id查询课程信息")
     @GetMapping("/coursebase/{id}")
     CourseBase getCoureseById(@PathVariable("id") String id);
+
+
+    /**
+     * 更新课程信息
+     * @param courseBase
+     * @return
+     */
+    @ApiOperation("更新课程信息")
+    @PutMapping("/coursebase/update")
+    UpdateCourseResult updateCourse(@RequestBody CourseBase courseBase);
 }

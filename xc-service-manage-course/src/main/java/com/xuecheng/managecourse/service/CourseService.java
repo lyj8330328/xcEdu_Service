@@ -7,6 +7,7 @@ import com.xuecheng.framework.domain.course.ext.TeachplanNode;
 import com.xuecheng.framework.domain.course.request.CourseListRequest;
 import com.xuecheng.framework.domain.course.response.AddCourseResult;
 import com.xuecheng.framework.domain.course.response.TeachPlanResult;
+import com.xuecheng.framework.domain.course.response.UpdateCourseResult;
 import com.xuecheng.framework.model.response.QueryResponseResult;
 import com.xuecheng.framework.model.response.ResponseResult;
 
@@ -68,4 +69,11 @@ public interface CourseService {
      * @return
      */
     CourseBase getCourseById(String id);
+
+    /**
+     * 修改课程信息
+     * @param courseBase
+     * @return
+     */
+    UpdateCourseResult courseUpdate(CourseBase courseBase);
 }
