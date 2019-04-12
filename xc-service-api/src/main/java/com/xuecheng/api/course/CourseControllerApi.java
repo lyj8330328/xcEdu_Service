@@ -1,10 +1,12 @@
 package com.xuecheng.api.course;
 
 import com.xuecheng.framework.domain.course.CourseBase;
+import com.xuecheng.framework.domain.course.CourseMarket;
 import com.xuecheng.framework.domain.course.Teachplan;
 import com.xuecheng.framework.domain.course.ext.TeachplanNode;
 import com.xuecheng.framework.domain.course.request.CourseListRequest;
 import com.xuecheng.framework.domain.course.response.AddCourseResult;
+import com.xuecheng.framework.domain.course.response.CourseMarketResult;
 import com.xuecheng.framework.domain.course.response.TeachPlanResult;
 import com.xuecheng.framework.domain.course.response.UpdateCourseResult;
 import com.xuecheng.framework.model.response.QueryResponseResult;
@@ -120,4 +122,24 @@ public interface CourseControllerApi {
     @ApiOperation("更新课程信息")
     @PutMapping("/coursebase/update")
     UpdateCourseResult updateCourse(@RequestBody CourseBase courseBase);
+
+
+    /**
+     * 根据课程id查询课程营销信息
+     * @param courseId
+     * @return
+     */
+    @ApiOperation("获取课程营销信息")
+    @GetMapping("/coursemarket/{id}")
+    CourseMarket getCourseMarketById(@PathVariable("id") String courseId);
+
+    /**
+     * 更新或者新增课程营销信息
+     * @param courseId
+     * @param courseMarket
+     * @return
+     */
+    @ApiOperation("更新课程营销信息")
+    @PutMapping("/coursemarket/{id}")
+    CourseMarketResult updateOrInsertCourseMarket(@PathVariable("id") String courseId,@RequestBody CourseMarket courseMarket);
 }

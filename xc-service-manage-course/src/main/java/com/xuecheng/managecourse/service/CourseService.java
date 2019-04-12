@@ -1,11 +1,13 @@
 package com.xuecheng.managecourse.service;
 
 import com.xuecheng.framework.domain.course.CourseBase;
+import com.xuecheng.framework.domain.course.CourseMarket;
 import com.xuecheng.framework.domain.course.Teachplan;
 import com.xuecheng.framework.domain.course.ext.CourseInfo;
 import com.xuecheng.framework.domain.course.ext.TeachplanNode;
 import com.xuecheng.framework.domain.course.request.CourseListRequest;
 import com.xuecheng.framework.domain.course.response.AddCourseResult;
+import com.xuecheng.framework.domain.course.response.CourseMarketResult;
 import com.xuecheng.framework.domain.course.response.TeachPlanResult;
 import com.xuecheng.framework.domain.course.response.UpdateCourseResult;
 import com.xuecheng.framework.model.response.QueryResponseResult;
@@ -76,4 +78,19 @@ public interface CourseService {
      * @return
      */
     UpdateCourseResult courseUpdate(CourseBase courseBase);
+
+    /**
+     * 根据课程id查询课程营销信息
+     * @param id
+     * @return
+     */
+    CourseMarket getCourseMarketById(String id);
+
+    /**
+     * 根据课程id查询营销信息，查到就做修改，查不到就做插入
+     * @param id
+     * @param courseMarket
+     * @return
+     */
+    CourseMarketResult updateOrInsertCourseMarket(String id,CourseMarket courseMarket);
 }

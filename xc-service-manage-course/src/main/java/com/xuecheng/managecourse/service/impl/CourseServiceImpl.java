@@ -3,23 +3,18 @@ package com.xuecheng.managecourse.service.impl;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.xuecheng.framework.domain.course.CourseBase;
+import com.xuecheng.framework.domain.course.CourseMarket;
 import com.xuecheng.framework.domain.course.Teachplan;
 import com.xuecheng.framework.domain.course.ext.CourseInfo;
 import com.xuecheng.framework.domain.course.ext.TeachplanNode;
 import com.xuecheng.framework.domain.course.request.CourseListRequest;
-import com.xuecheng.framework.domain.course.response.AddCourseResult;
-import com.xuecheng.framework.domain.course.response.CourseCode;
-import com.xuecheng.framework.domain.course.response.TeachPlanResult;
-import com.xuecheng.framework.domain.course.response.UpdateCourseResult;
+import com.xuecheng.framework.domain.course.response.*;
 import com.xuecheng.framework.exception.ExceptionCast;
 import com.xuecheng.framework.model.response.CommonCode;
 import com.xuecheng.framework.model.response.QueryResponseResult;
 import com.xuecheng.framework.model.response.QueryResult;
 import com.xuecheng.framework.model.response.ResponseResult;
-import com.xuecheng.managecourse.dao.CourseBaseRepository;
-import com.xuecheng.managecourse.dao.CourseMapper;
-import com.xuecheng.managecourse.dao.TeachPlanMapper;
-import com.xuecheng.managecourse.dao.TeachPlanRepository;
+import com.xuecheng.managecourse.dao.*;
 import com.xuecheng.managecourse.service.CourseService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,12 +42,15 @@ public class CourseServiceImpl implements CourseService {
 
     private final CourseMapper courseMapper;
 
+    private final CourseMarketRepository courseMarketRepository;
+
     @Autowired
-    public CourseServiceImpl(TeachPlanMapper teachPlanMapper, CourseBaseRepository courseBaseRepository, TeachPlanRepository teachPlanRepository, CourseMapper courseMapper) {
+    public CourseServiceImpl(TeachPlanMapper teachPlanMapper, CourseBaseRepository courseBaseRepository, TeachPlanRepository teachPlanRepository, CourseMapper courseMapper, CourseMarketRepository courseMarketRepository) {
         this.teachPlanMapper = teachPlanMapper;
         this.courseBaseRepository = courseBaseRepository;
         this.teachPlanRepository = teachPlanRepository;
         this.courseMapper = courseMapper;
+        this.courseMarketRepository = courseMarketRepository;
     }
 
     /**
@@ -259,6 +257,68 @@ public class CourseServiceImpl implements CourseService {
         }
         CourseBase base = this.courseBaseRepository.saveAndFlush(update);
         return new UpdateCourseResult(base, CommonCode.SUCCESS);
+    }
+
+    /**
+     * 根据课程id查询课程营销信息
+     * @param id 课程id
+     * @return
+     */
+    @Override
+    public CourseMarket getCourseMarketById(String id) {
+        if (id == null){
+            ExceptionCast.cast(CourseCode.COURSE_ID_ISNULL);
+        }
+        Optional<CourseMarket> optional = this.courseMarketRepository.findById(id);
+        if (!optional.isPresent()){
+            ExceptionCast.cast(CourseCode.COURSE_MARKET_INFO_ISNULL);
+        }
+        return optional.get();
+    }
+
+    /**
+     * 根据课程id插入或者更新营销信息
+     * @param id 课程id
+     * @param courseMarket 营销信息
+     * @return
+     */
+    @Override
+    public CourseMarketResult updateOrInsertCourseMarket(String id, CourseMarket courseMarket) {
+        Optional<CourseMarket> optional = this.courseMarketRepository.findById(id);
+        if (optional.isPresent()){
+            CourseMarket temp = optional.get();
+            //1.执行更新
+            if (StringUtils.isEmpty(courseMarket.getCharge())){
+                ExceptionCast.cast(CourseCode.COURSE_MARKET_INFO_CHARGE_ISNULL);
+            }else {
+                temp.setCharge(courseMarket.getCharge());
+            }
+            if (StringUtils.isEmpty(courseMarket.getId())){
+                ExceptionCast.cast(CourseCode.COURSE_ID_ISNULL);
+            }else {
+                temp.setId(courseMarket.getId());
+            }
+            if (StringUtils.isEmpty(courseMarket.getQq())){
+                ExceptionCast.cast(CourseCode.COURSE_MARKET_INFO_QQ_ISNULL);
+            }else {
+                temp.setQq(courseMarket.getQq());
+            }
+            if (StringUtils.isEmpty(courseMarket.getValid())){
+                ExceptionCast.cast(CourseCode.COURSE_MARKET_INFO_VALID_ISNULL);
+            }else {
+                temp.setValid(courseMarket.getValid());
+            }
+            temp.setPrice(courseMarket.getPrice());
+            temp.setPrice_old(courseMarket.getPrice_old());
+            temp.setStartTime(courseMarket.getStartTime());
+            temp.setEndTime(courseMarket.getEndTime());
+            CourseMarket save = this.courseMarketRepository.saveAndFlush(temp);
+            return new CourseMarketResult(save, CommonCode.SUCCESS);
+        }else {
+            //2.执行插入
+            CourseMarket save = this.courseMarketRepository.save(courseMarket);
+            return new CourseMarketResult(save, CommonCode.SUCCESS);
+        }
     }
 
     /**

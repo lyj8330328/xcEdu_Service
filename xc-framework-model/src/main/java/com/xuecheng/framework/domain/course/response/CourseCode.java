@@ -12,6 +12,8 @@ import lombok.ToString;
 
 @ToString
 public enum CourseCode implements ResultCode {
+
+
     /**
      * 删除课程失败，只允许删除本机构的课程！
      */
@@ -43,6 +45,13 @@ public enum CourseCode implements ResultCode {
     COURSE_STATUS_ISNULL(false,32123,"课程状态为空"),
     COURSE_COMPANYID_ISNULL(false,32124,"教育机构ID为空"),
     COURSE_USERID_ISNULL(false,32125,"创建用户为空"),
+
+    COURSE_ID_ISNULL(false,33111,"课程id为空！"),
+    COURSE_MARKET_INFO_CHARGE_ISNULL(false,33112,"课程收费规则为空！"),
+    COURSE_MARKET_INFO_VALID_ISNULL(false,33113,"课程有效性为空！"),
+    COURSE_MARKET_INFO_QQ_ISNULL(false,33114,"QQ为空！"),
+    COURSE_MARKET_INFO_ISNULL(false,33115,"课程营销信息为空！"),
+
 
 
     COURSE_PLAN_ADD_PARAMETERISNULL(false,31111,"课程计划添加参数为空！"),
