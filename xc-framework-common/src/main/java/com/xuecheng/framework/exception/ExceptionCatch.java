@@ -35,6 +35,9 @@ public class ExceptionCatch {
     static{
         //在这里加入一些基础的异常类型判断
         builder.put(HttpMessageNotReadableException.class,CommonCode.INVALID_PARAM);
+        builder.put(HttpMessageNotReadableException.class,CommonCode.SERVER_ERROR);
+        builder.put(HttpMessageNotReadableException.class,CommonCode.UNAUTHENTICATED);
+        builder.put(HttpMessageNotReadableException.class,CommonCode.UNAUTHORISE);
     }
 
 

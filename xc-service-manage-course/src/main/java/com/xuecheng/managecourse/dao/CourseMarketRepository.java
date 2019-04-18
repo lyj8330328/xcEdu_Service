@@ -9,4 +9,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @Feature:
  */
 public interface CourseMarketRepository extends JpaRepository<CourseMarket,String> {
+
 }

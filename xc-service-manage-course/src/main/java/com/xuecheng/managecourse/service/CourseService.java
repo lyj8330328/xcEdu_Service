@@ -2,6 +2,7 @@ package com.xuecheng.managecourse.service;
 
 import com.xuecheng.framework.domain.course.CourseBase;
 import com.xuecheng.framework.domain.course.CourseMarket;
+import com.xuecheng.framework.domain.course.CoursePic;
 import com.xuecheng.framework.domain.course.Teachplan;
 import com.xuecheng.framework.domain.course.ext.CourseInfo;
 import com.xuecheng.framework.domain.course.ext.TeachplanNode;
@@ -93,4 +94,26 @@ public interface CourseService {
      * @return
      */
     CourseMarketResult updateOrInsertCourseMarket(String id,CourseMarket courseMarket);
+
+    /**
+     * 添加课程图片
+     * @param courseId 课程id
+     * @param pic 图片地址
+     * @return
+     */
+    ResponseResult saveCoursePic(String courseId,String pic);
+
+    /**
+     * 查询课程图片
+     * @param courseId 课程id
+     * @return
+     */
+    CoursePic findCoursePic(String courseId);
+
+    /**
+     * 删除课程图片
+     * @param courseId 课程id
+     * @return
+     */
+    ResponseResult deleteCoursePic(String courseId);
 }

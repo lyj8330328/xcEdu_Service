@@ -4,6 +4,7 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.xuecheng.framework.domain.course.CourseBase;
 import com.xuecheng.framework.domain.course.CourseMarket;
+import com.xuecheng.framework.domain.course.CoursePic;
 import com.xuecheng.framework.domain.course.Teachplan;
 import com.xuecheng.framework.domain.course.ext.CourseInfo;
 import com.xuecheng.framework.domain.course.ext.TeachplanNode;
@@ -44,13 +45,16 @@ public class CourseServiceImpl implements CourseService {
 
     private final CourseMarketRepository courseMarketRepository;
 
+    private final CoursePicRepository coursePicRepository;
+
     @Autowired
-    public CourseServiceImpl(TeachPlanMapper teachPlanMapper, CourseBaseRepository courseBaseRepository, TeachPlanRepository teachPlanRepository, CourseMapper courseMapper, CourseMarketRepository courseMarketRepository) {
+    public CourseServiceImpl(TeachPlanMapper teachPlanMapper, CourseBaseRepository courseBaseRepository, TeachPlanRepository teachPlanRepository, CourseMapper courseMapper, CourseMarketRepository courseMarketRepository, CoursePicRepository coursePicRepository) {
         this.teachPlanMapper = teachPlanMapper;
         this.courseBaseRepository = courseBaseRepository;
         this.teachPlanRepository = teachPlanRepository;
         this.courseMapper = courseMapper;
         this.courseMarketRepository = courseMarketRepository;
+        this.coursePicRepository = coursePicRepository;
     }
 
     /**
@@ -318,6 +322,60 @@ public class CourseServiceImpl implements CourseService {
             //2.执行插入
             CourseMarket save = this.courseMarketRepository.save(courseMarket);
             return new CourseMarketResult(save, CommonCode.SUCCESS);
+        }
+    }
+
+    /**
+     * 保存课程图片
+     * @param courseId 课程id
+     * @param pic 图片地址
+     * @return
+     */
+    @Override
+    public ResponseResult saveCoursePic(String courseId, String pic) {
+        //1.查询课程图片
+        Optional<CoursePic> optional = this.coursePicRepository.findById(courseId);
+        CoursePic coursePic = null;
+        if (optional.isPresent()){
+            coursePic = optional.get();
+        }
+        //2.没有课程图片则新建对象
+        if (coursePic == null){
+            coursePic = new CoursePic();
+        }
+        coursePic.setCourseid(courseId);
+        coursePic.setPic(pic);
+        this.coursePicRepository.save(coursePic);
+        return new ResponseResult(CommonCode.SUCCESS);
+    }
+
+    /**
+     * 查询课程图片
+     * @param courseId 课程id
+     * @return
+     */
+    @Override
+    public CoursePic findCoursePic(String courseId) {
+        Optional<CoursePic> optional = this.coursePicRepository.findById(courseId);
+        if (!optional.isPresent()){
+            ExceptionCast.cast(CourseCode.COURSE_PICISNULL);
+        }
+        return optional.get();
+    }
+
+    /**
+     * 删除课程图片
+     * @param courseId 课程id
+     * @return
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public ResponseResult deleteCoursePic(String courseId) {
+        long result = this.coursePicRepository.deleteByCourseid(courseId);
+        if (result > 0){
+            return new ResponseResult(CommonCode.SUCCESS);
+        }else {
+            return new ResponseResult(CommonCode.FAIL);
         }
     }
 

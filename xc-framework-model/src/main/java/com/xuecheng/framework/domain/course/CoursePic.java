@@ -7,8 +7,9 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.io.Serializable;
 
+
 /**
- * Created by admin on 2018/2/10.
+ * @author 98050
  */
 @Data
 @ToString

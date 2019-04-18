@@ -24,8 +24,12 @@ import java.util.List;
 @RequestMapping("/cms/page")
 public class CmsPageController implements CmsPageControllerApi {
 
+    private final CmsService cmsService;
+
     @Autowired
-    private CmsService cmsService;
+    public CmsPageController(CmsService cmsService) {
+        this.cmsService = cmsService;
+    }
 
     @Override
     @GetMapping("/list/{page}/{size}")

@@ -22,9 +22,10 @@ public enum CourseCode implements ResultCode {
     COURSE_PUBLISH_CDETAILERROR(false,31003,"创建课程详情页面出错！"),
     COURSE_PUBLISH_COURSEIDISNULL(false,31004,"课程Id为空！"),
     COURSE_PUBLISH_VIEWERROR(false,31005,"发布课程视图出错！"),
-    COURSE_MEDIS_URLISNULL(false,31101,"选择的媒资文件访问地址为空！"),
-    COURSE_MEDIS_NAMEISNULL(false,31102,"选择的媒资文件名称为空！"),
-    COURSE_COMPANYISNULL(false,31006,"机构id为空"),
+    COURSE_MEDIS_URLISNULL(false,31006,"选择的媒资文件访问地址为空！"),
+    COURSE_MEDIS_NAMEISNULL(false,31007,"选择的媒资文件名称为空！"),
+    COURSE_COMPANYISNULL(false,31008,"机构id为空"),
+    COURSE_PICISNULL(false,31009,"课程图片为空"),
 
 
     COURSE_ADD_PARAMTERISNULL(false,32111,"课程参数为空！"),
