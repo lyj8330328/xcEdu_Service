@@ -3,6 +3,7 @@ package com.xuecheng.managecms;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.client.OkHttp3ClientHttpRequestFactory;
@@ -25,6 +26,10 @@ import org.springframework.web.client.RestTemplate;
  * 扫描common工程下的类
  */
 @ComponentScan(basePackages = {"com.xuecheng.framework"})
+/**
+ * Eureka客户端
+ */
+@EnableDiscoveryClient
 /**
  * @Author: 98050
  * @Time: 2019-03-19 18:58

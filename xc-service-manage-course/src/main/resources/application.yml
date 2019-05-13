@@ -1,5 +1,5 @@
 server:
-  port: 31200
+  port: ${PORT:31200}
 spring:
   application:
     name: xc-service-manage-course
@@ -19,3 +19,14 @@ spring:
       minEvictableIdleTimeMillis: 300000  #连接在连接池的最小生存时间（毫秒）
 pagehelper:
   helper-dialect: mysql
+
+eureka:
+  client:
+    register-with-eureka: true #服务注册开关
+    fetch-registry: true #服务发现开关
+    service-url:
+      defaultZone: ${EUREAK_SERVER:http://localhost:50101/eureka/}
+  instance:
+    prefer-ip-address: true  #将自己的ip地址注册到Eureka
+    ip-address: ${IP_ADDRESS:127.0.0.1}
+    instance-id: ${spring.application.name}:${server.port} #指定实例id

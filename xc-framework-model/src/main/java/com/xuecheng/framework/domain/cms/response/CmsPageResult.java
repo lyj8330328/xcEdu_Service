@@ -11,6 +11,9 @@ import lombok.Data;
  */
 @Data
 public class CmsPageResult extends ResponseResult {
+    public CmsPageResult(){
+
+    }
     CmsPage cmsPage;
     public CmsPageResult(ResultCode resultCode,CmsPage cmsPage) {
         super(resultCode);

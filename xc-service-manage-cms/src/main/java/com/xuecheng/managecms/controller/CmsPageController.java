@@ -46,7 +46,7 @@ public class CmsPageController implements CmsPageControllerApi {
     @Override
     @GetMapping("/get/{id}")
     public CmsPageResult findById(@PathVariable String id) {
-        System.out.println(id);
+        //System.out.println(id);
         CmsPage cmsPage = cmsService.findById(id);
         if (cmsPage != null){
             return new CmsPageResult(CommonCode.SUCCESS, cmsPage);
