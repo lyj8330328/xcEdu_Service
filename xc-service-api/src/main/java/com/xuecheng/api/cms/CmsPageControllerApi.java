@@ -42,11 +42,11 @@ public interface CmsPageControllerApi {
      * @return
      */
     @ApiOperation("页面添加")
-    @PostMapping("/add")
     @ApiResponses({
             @ApiResponse(code = 10000,message = "操作成功"),
             @ApiResponse(code = 11111,message = "操作失败")
     })
+    @PostMapping("/add")
     CmsPageResult add(@RequestBody CmsPage cmsPage);
 
     /**
@@ -58,11 +58,11 @@ public interface CmsPageControllerApi {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id",value = "页面Id",required = true,paramType = "path",dataType = "String")
     })
-    @GetMapping("/get/{id}")
     @ApiResponses({
             @ApiResponse(code = 10000,message = "操作成功"),
             @ApiResponse(code = 11111,message = "操作失败")
     })
+    @GetMapping("/get/{id}")
     CmsPageResult findById(@PathVariable String id);
 
     /**
@@ -75,11 +75,11 @@ public interface CmsPageControllerApi {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id",value = "页面Id",required = true,paramType = "path",dataType = "String")
     })
-    @PutMapping("/update/{id}")
     @ApiResponses({
             @ApiResponse(code = 10000,message = "操作成功"),
             @ApiResponse(code = 11111,message = "操作失败")
     })
+    @PutMapping("/update/{id}")
     CmsPageResult update(@PathVariable String id,@RequestBody CmsPage cmsPage);
 
     /**
@@ -88,7 +88,6 @@ public interface CmsPageControllerApi {
      * @return
      */
     @ApiOperation("删除页面")
-    @DeleteMapping("/delete/{id}")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id",value = "页面Id",required = true,paramType = "path",dataType = "String")
     })
@@ -96,6 +95,7 @@ public interface CmsPageControllerApi {
             @ApiResponse(code = 10000,message = "操作成功"),
             @ApiResponse(code = 11111,message = "操作失败")
     })
+    @DeleteMapping("/delete/{id}")
     ResponseResult delete(@PathVariable String id);
 
     /**
@@ -128,6 +128,6 @@ public interface CmsPageControllerApi {
             @ApiResponse(code = 10000,message = "操作成功"),
             @ApiResponse(code = 11111,message = "操作失败")
     })
-    @PostMapping("/postPage/{pageId}")
+    @PostMapping("/redoPage/{pageId}")
     ResponseResult postRollBack(@PathVariable("pageId") String pageId);
 }

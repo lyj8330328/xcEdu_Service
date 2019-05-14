@@ -21,7 +21,6 @@ import java.util.List;
  * @Feature:
  */
 @RestController
-@RequestMapping("/cms/page")
 public class CmsPageController implements CmsPageControllerApi {
 
     private final CmsService cmsService;
@@ -32,19 +31,16 @@ public class CmsPageController implements CmsPageControllerApi {
     }
 
     @Override
-    @GetMapping("/list/{page}/{size}")
     public QueryResponseResult findList(@PathVariable("page") int page, @PathVariable("size") int size, QueryPageRequest queryPageRequest) {
         return cmsService.queryByPage(page, size, queryPageRequest);
     }
 
     @Override
-    @PostMapping("/add")
     public CmsPageResult add(@RequestBody CmsPage cmsPage) {
         return cmsService.add(cmsPage);
     }
 
     @Override
-    @GetMapping("/get/{id}")
     public CmsPageResult findById(@PathVariable String id) {
         //System.out.println(id);
         CmsPage cmsPage = cmsService.findById(id);
@@ -56,25 +52,21 @@ public class CmsPageController implements CmsPageControllerApi {
     }
 
     @Override
-    @PutMapping("/update/{id}")
     public CmsPageResult update(@PathVariable String id, @RequestBody CmsPage cmsPage) {
         return cmsService.update(id,cmsPage);
     }
 
     @Override
-    @DeleteMapping("/delete/{id}")
     public ResponseResult delete(@PathVariable String id) {
         return cmsService.delete(id);
     }
 
     @Override
-    @PostMapping("/postPage/{pageId}")
     public ResponseResult post(@PathVariable("pageId") String pageId) {
         return this.cmsService.postPage(pageId);
     }
 
     @Override
-    @PostMapping("/redoPage/{pageId}")
     public ResponseResult postRollBack(@PathVariable("pageId") String pageId) {
         return this.cmsService.postPageRollBack(pageId);
     }
