@@ -4,6 +4,7 @@ import com.xuecheng.framework.domain.course.CourseBase;
 import com.xuecheng.framework.domain.course.CourseMarket;
 import com.xuecheng.framework.domain.course.CoursePic;
 import com.xuecheng.framework.domain.course.Teachplan;
+import com.xuecheng.framework.domain.course.ext.CourseView;
 import com.xuecheng.framework.domain.course.ext.TeachplanNode;
 import com.xuecheng.framework.domain.course.request.CourseListRequest;
 import com.xuecheng.framework.domain.course.response.AddCourseResult;
@@ -165,6 +166,9 @@ public interface CourseControllerApi {
      * @return
      */
     @ApiOperation("课程图片查询")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "courseId",value = "课程id",required = true,paramType = "path",dataType = "String"),
+    })
     @GetMapping("/coursepic/list/{courseId}")
     CoursePic findCoursePic(@PathVariable("courseId") String courseId);
 
@@ -175,6 +179,21 @@ public interface CourseControllerApi {
      * @return
      */
     @ApiOperation("课程图片查询")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "courseId",value = "课程id",required = true,paramType = "path",dataType = "String"),
+    })
     @DeleteMapping("/coursepic/delete/{courseId}")
     ResponseResult deleteCoursePic(@PathVariable("courseId") String courseId);
+
+    /**
+     * 课程视图查询
+     * @param id 课程id
+     * @return
+     */
+    @ApiOperation("课程视图查询")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id",value = "课程id",required = true,paramType = "path",dataType = "String"),
+    })
+    @GetMapping("/courseview/{id}")
+    CourseView courseView(@PathVariable("id") String id);
 }

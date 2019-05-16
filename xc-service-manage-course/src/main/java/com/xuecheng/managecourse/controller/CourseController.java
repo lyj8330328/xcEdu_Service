@@ -5,6 +5,7 @@ import com.xuecheng.framework.domain.course.CourseBase;
 import com.xuecheng.framework.domain.course.CourseMarket;
 import com.xuecheng.framework.domain.course.CoursePic;
 import com.xuecheng.framework.domain.course.Teachplan;
+import com.xuecheng.framework.domain.course.ext.CourseView;
 import com.xuecheng.framework.domain.course.ext.TeachplanNode;
 import com.xuecheng.framework.domain.course.request.CourseListRequest;
 import com.xuecheng.framework.domain.course.response.AddCourseResult;
@@ -109,6 +110,11 @@ public class CourseController implements CourseControllerApi {
     public ResponseResult deleteCoursePic(@PathVariable("courseId") String courseId) {
         System.out.println(courseId);
         return this.courseService.deleteCoursePic(courseId);
+    }
+
+    @Override
+    public CourseView courseView(@PathVariable("id") String id) {
+        return this.courseService.getCourseView(id);
     }
 
 

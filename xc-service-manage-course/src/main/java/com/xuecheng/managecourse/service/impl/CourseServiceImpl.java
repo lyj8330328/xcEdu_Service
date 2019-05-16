@@ -7,6 +7,7 @@ import com.xuecheng.framework.domain.course.CourseMarket;
 import com.xuecheng.framework.domain.course.CoursePic;
 import com.xuecheng.framework.domain.course.Teachplan;
 import com.xuecheng.framework.domain.course.ext.CourseInfo;
+import com.xuecheng.framework.domain.course.ext.CourseView;
 import com.xuecheng.framework.domain.course.ext.TeachplanNode;
 import com.xuecheng.framework.domain.course.request.CourseListRequest;
 import com.xuecheng.framework.domain.course.response.*;
@@ -24,8 +25,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.*;
 
 /**
  * @Author: 98050
@@ -377,6 +380,52 @@ public class CourseServiceImpl implements CourseService {
         }else {
             return new ResponseResult(CommonCode.FAIL);
         }
+    }
+
+    /**
+     * 查询课程详情
+     * @param id 课程id
+     * @return
+     */
+    @Override
+    public CourseView getCourseView(String id) {
+        CourseView courseView = new CourseView();
+        final CountDownLatch countDownLatch = new CountDownLatch(4);
+        ExecutorService executorService = Executors.newFixedThreadPool(4);
+        try {
+            CourseBase courseBaseResult = executorService.submit(() -> {
+                //1.查询课程基础信息
+                countDownLatch.countDown();
+                Optional<CourseBase> courseBase = this.courseBaseRepository.findById(id);
+                return courseBase.orElse(null);
+            }).get();
+            CourseMarket courseMarketResult = executorService.submit(() -> {
+                //2.查询课程营销信息
+                countDownLatch.countDown();
+                Optional<CourseMarket> courseMarket = this.courseMarketRepository.findById(id);
+                return courseMarket.orElse(null);
+            }).get();
+            CoursePic coursePicResult = executorService.submit(() -> {
+                //3.查询课程图片
+                countDownLatch.countDown();
+                Optional<CoursePic> coursePic = this.coursePicRepository.findById(id);
+                return coursePic.orElse(null);
+            }).get();
+            TeachplanNode teachplanNodeResult = executorService.submit(() -> {
+                //4.查询课程教学计划
+                countDownLatch.countDown();
+                return this.teachPlanMapper.selectList(id);
+            }).get();
+            countDownLatch.await();
+            courseView.setCourseBase(courseBaseResult);
+            courseView.setCourseMarket(courseMarketResult);
+            courseView.setCoursePic(coursePicResult);
+            courseView.setTeachplanNode(teachplanNodeResult);
+            return courseView;
+        }catch (Exception e){
+            ExceptionCast.cast(CourseCode.COURSE_VIEW_QUERY_ERROR);
+        }
+        return courseView;
     }
 
     /**

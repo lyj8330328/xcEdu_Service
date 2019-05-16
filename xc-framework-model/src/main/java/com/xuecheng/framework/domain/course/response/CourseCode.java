@@ -53,6 +53,7 @@ public enum CourseCode implements ResultCode {
     COURSE_MARKET_INFO_QQ_ISNULL(false,33114,"QQ为空！"),
     COURSE_MARKET_INFO_ISNULL(false,33115,"课程营销信息为空！"),
 
+    COURSE_VIEW_QUERY_ERROR(false,33333,"课程详情查询出错！"),
 
 
     COURSE_PLAN_ADD_PARAMETERISNULL(false,31111,"课程计划添加参数为空！"),
