@@ -172,7 +172,7 @@ public class CmsServiceImpl implements CmsService {
      */
     @Override
     public CmsPage findById(String id) {
-        Optional<CmsPage> optional = cmsPageRepository.findById(id);
+        Optional<CmsPage> optional = this.cmsPageRepository.findById(id);
         if (optional.isPresent()){
             return optional.get();
         }else {
@@ -281,6 +281,24 @@ public class CmsServiceImpl implements CmsService {
         //2.发送消息到消息队列
         sendPostPage(cmsPage,"redo");
         return new ResponseResult(CommonCode.SUCCESS);
+    }
+
+    /**
+     * 保存页面，更新或者新增课程详情页面
+     * @param cmsPage
+     * @return
+     */
+    @Override
+    public CmsPageResult save(CmsPage cmsPage) {
+        //1.检查页面是否存在，根据页面名称、站点Id、页面webPath查询
+        CmsPage cmsPage1 = this.cmsPageRepository.findByPageNameAndSiteIdAndPageWebPath(cmsPage.getPageName(), cmsPage.getSiteId(), cmsPage.getPageWebPath());
+        if (cmsPage1 != null){
+            //更新
+            return this.update(cmsPage1.getPageId(), cmsPage);
+        }else {
+            //添加
+            return this.add(cmsPage);
+        }
     }
 
     private void sendPostPage(CmsPage cmsPage,String type) {

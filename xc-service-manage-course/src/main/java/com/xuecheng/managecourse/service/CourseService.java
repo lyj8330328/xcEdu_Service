@@ -8,10 +8,7 @@ import com.xuecheng.framework.domain.course.ext.CourseInfo;
 import com.xuecheng.framework.domain.course.ext.CourseView;
 import com.xuecheng.framework.domain.course.ext.TeachplanNode;
 import com.xuecheng.framework.domain.course.request.CourseListRequest;
-import com.xuecheng.framework.domain.course.response.AddCourseResult;
-import com.xuecheng.framework.domain.course.response.CourseMarketResult;
-import com.xuecheng.framework.domain.course.response.TeachPlanResult;
-import com.xuecheng.framework.domain.course.response.UpdateCourseResult;
+import com.xuecheng.framework.domain.course.response.*;
 import com.xuecheng.framework.model.response.QueryResponseResult;
 import com.xuecheng.framework.model.response.ResponseResult;
 
@@ -124,4 +121,11 @@ public interface CourseService {
      * @return
      */
     CourseView getCourseView(String id);
+
+    /**
+     * 课程详情页面预览
+     * @param courseId 课程id
+     * @return
+     */
+    CoursePublicResult preview(String courseId);
 }

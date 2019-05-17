@@ -69,4 +69,9 @@ public class CmsPageController implements CmsPageControllerApi {
     public ResponseResult postRollBack(@PathVariable("pageId") String pageId) {
         return this.cmsService.postPageRollBack(pageId);
     }
+
+    @Override
+    public CmsPageResult save(@RequestBody CmsPage cmsPage) {
+        return this.cmsService.save(cmsPage);
+    }
 }

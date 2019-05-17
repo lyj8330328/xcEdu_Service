@@ -8,10 +8,7 @@ import com.xuecheng.framework.domain.course.Teachplan;
 import com.xuecheng.framework.domain.course.ext.CourseView;
 import com.xuecheng.framework.domain.course.ext.TeachplanNode;
 import com.xuecheng.framework.domain.course.request.CourseListRequest;
-import com.xuecheng.framework.domain.course.response.AddCourseResult;
-import com.xuecheng.framework.domain.course.response.CourseMarketResult;
-import com.xuecheng.framework.domain.course.response.TeachPlanResult;
-import com.xuecheng.framework.domain.course.response.UpdateCourseResult;
+import com.xuecheng.framework.domain.course.response.*;
 import com.xuecheng.framework.model.response.QueryResponseResult;
 import com.xuecheng.framework.model.response.ResponseResult;
 import com.xuecheng.managecourse.service.CourseService;
@@ -117,5 +114,8 @@ public class CourseController implements CourseControllerApi {
         return this.courseService.getCourseView(id);
     }
 
-
+    @Override
+    public CoursePublicResult preview(@PathVariable("id") String id) {
+        return this.courseService.preview(id);
+    }
 }

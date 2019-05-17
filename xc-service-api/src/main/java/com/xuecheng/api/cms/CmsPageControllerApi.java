@@ -130,4 +130,17 @@ public interface CmsPageControllerApi {
     })
     @PostMapping("/redoPage/{pageId}")
     ResponseResult postRollBack(@PathVariable("pageId") String pageId);
+
+    /**
+     * 此接口由课程管理服务在课程预览时调用，更新或者新增课程详情页面
+     * @param cmsPage 页面内容
+     * @return
+     */
+    @ApiOperation("页面保存")
+    @ApiResponses({
+            @ApiResponse(code = 10000,message = "操作成功"),
+            @ApiResponse(code = 11111,message = "操作失败")
+    })
+    @PostMapping("/save")
+    CmsPageResult save(CmsPage cmsPage);
 }

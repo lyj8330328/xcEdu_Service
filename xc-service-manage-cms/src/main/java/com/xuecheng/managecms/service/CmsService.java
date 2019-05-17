@@ -72,4 +72,12 @@ public interface CmsService {
      * @return
      */
     ResponseResult postPageRollBack(String pageId);
+
+
+    /**
+     * 保存页面，更新或者新增课程详情页面
+     * @param cmsPage
+     * @return
+     */
+    CmsPageResult save(CmsPage cmsPage);
 }

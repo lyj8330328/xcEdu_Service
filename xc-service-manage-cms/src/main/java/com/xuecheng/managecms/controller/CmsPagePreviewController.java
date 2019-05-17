@@ -27,7 +27,11 @@ public class CmsPagePreviewController extends BaseController {
 
     @RequestMapping(value = "/cms/preview/{pageId}",method = RequestMethod.GET)
     public void preview(@PathVariable("pageId") String pageId) throws IOException {
-        String pageHtml = this.cmsService.getPageHtml(pageId);
+        String pageHtml = "";
+        if (!pageId.equals("text.png")){
+            pageHtml = this.cmsService.getPageHtml(pageId);
+        }
+        response.setHeader("Content-type", "text/html;charset=utf-8");
         if (StringUtils.isNotEmpty(pageHtml)){
             ServletOutputStream outputStream = response.getOutputStream();
             outputStream.write(pageHtml.getBytes(StandardCharsets.UTF_8));

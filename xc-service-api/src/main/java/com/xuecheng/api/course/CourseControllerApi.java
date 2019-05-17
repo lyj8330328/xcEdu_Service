@@ -7,10 +7,7 @@ import com.xuecheng.framework.domain.course.Teachplan;
 import com.xuecheng.framework.domain.course.ext.CourseView;
 import com.xuecheng.framework.domain.course.ext.TeachplanNode;
 import com.xuecheng.framework.domain.course.request.CourseListRequest;
-import com.xuecheng.framework.domain.course.response.AddCourseResult;
-import com.xuecheng.framework.domain.course.response.CourseMarketResult;
-import com.xuecheng.framework.domain.course.response.TeachPlanResult;
-import com.xuecheng.framework.domain.course.response.UpdateCourseResult;
+import com.xuecheng.framework.domain.course.response.*;
 import com.xuecheng.framework.model.response.QueryResponseResult;
 import com.xuecheng.framework.model.response.ResponseResult;
 import io.swagger.annotations.*;
@@ -196,4 +193,16 @@ public interface CourseControllerApi {
     })
     @GetMapping("/courseview/{id}")
     CourseView courseView(@PathVariable("id") String id);
+
+    /**
+     * 课程详情页面预览
+     * @param id 课程id
+     * @return
+     */
+    @ApiOperation("课程预览")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id",value = "课程id",required = true,paramType = "path",dataType = "String"),
+    })
+    @PostMapping("/preview/{id}")
+    CoursePublicResult preview(@PathVariable("id") String id);
 }
