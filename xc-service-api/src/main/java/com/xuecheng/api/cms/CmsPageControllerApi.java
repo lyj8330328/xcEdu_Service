@@ -1,9 +1,9 @@
 package com.xuecheng.api.cms;
 
 import com.xuecheng.framework.domain.cms.CmsPage;
-import com.xuecheng.framework.domain.cms.CmsSite;
 import com.xuecheng.framework.domain.cms.request.QueryPageRequest;
 import com.xuecheng.framework.domain.cms.response.CmsPageResult;
+import com.xuecheng.framework.domain.cms.response.CmsPostPageResult;
 import com.xuecheng.framework.model.response.QueryResponseResult;
 import com.xuecheng.framework.model.response.ResponseResult;
 import io.swagger.annotations.*;
@@ -143,4 +143,18 @@ public interface CmsPageControllerApi {
     })
     @PostMapping("/save")
     CmsPageResult save(CmsPage cmsPage);
+
+
+    /**
+     * 课程页面详情发布
+     * @param cmsPage
+     * @return
+     */
+    @ApiOperation("一键发布页面")
+    @ApiResponses({
+            @ApiResponse(code = 10000,message = "操作成功"),
+            @ApiResponse(code = 11111,message = "操作失败")
+    })
+    @PostMapping("/postPageQuick")
+    CmsPostPageResult postPageQuick(@RequestBody CmsPage cmsPage);
 }

@@ -60,7 +60,9 @@ public enum CourseCode implements ResultCode {
     COURSE_PLAN_ADD_COURSEIDISNULL(false,31112,"课程Id为空！"),
     COURSE_PLAN_ADD_COURSEISNULL(false,31113,"课程不存在！"),
     COURSE_PLAN_ADD_PARENTNODEISNULL(false,31114,"父结点不存在！"),
-    COURSE_PLAN_ADD_PLANNAMEISEXISTS(false,31115,"课程计划名称已存在！");
+    COURSE_PLAN_ADD_PLANNAMEISEXISTS(false,31115,"课程计划名称已存在！"),
+
+    COURSE_PUBLISH_ERROR(false,31116,"课程详情发布出错！");
 
 
 

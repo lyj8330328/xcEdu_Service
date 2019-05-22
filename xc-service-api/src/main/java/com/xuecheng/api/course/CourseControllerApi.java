@@ -1,5 +1,6 @@
 package com.xuecheng.api.course;
 
+import com.xuecheng.framework.domain.cms.CmsPage;
 import com.xuecheng.framework.domain.course.CourseBase;
 import com.xuecheng.framework.domain.course.CourseMarket;
 import com.xuecheng.framework.domain.course.CoursePic;
@@ -205,4 +206,13 @@ public interface CourseControllerApi {
     })
     @PostMapping("/preview/{id}")
     CoursePublicResult preview(@PathVariable("id") String id);
+
+    /**
+     * 课程详情页面发布
+     * @param courseId
+     * @return
+     */
+    @ApiOperation("发布课程")
+    @PostMapping("/publish/{id}")
+    CoursePublicResult publish(@PathVariable("id") String courseId);
 }

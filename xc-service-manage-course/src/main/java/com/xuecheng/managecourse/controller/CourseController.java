@@ -118,4 +118,9 @@ public class CourseController implements CourseControllerApi {
     public CoursePublicResult preview(@PathVariable("id") String id) {
         return this.courseService.preview(id);
     }
+
+    @Override
+    public CoursePublicResult publish(@PathVariable("id") String courseId) {
+        return this.courseService.publish(courseId);
+    }
 }

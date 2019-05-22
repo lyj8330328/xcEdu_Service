@@ -74,7 +74,7 @@ public class PageServiceImpl implements PageService {
 
         //3.拼接页面的物理
         StringBuffer stringBuffer = new StringBuffer();
-        stringBuffer.append(sitePhysicalPath).append(pagePhysicalPath).append(cmsPage.getPageName());
+        stringBuffer.append(pagePhysicalPath).append(sitePhysicalPath).append(cmsPage.getPageName());
 
         //4.根据发布类型下载html文件
         String fileId = null;

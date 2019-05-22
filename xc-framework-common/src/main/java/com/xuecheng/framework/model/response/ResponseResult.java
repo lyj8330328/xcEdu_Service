@@ -34,6 +34,11 @@ public class ResponseResult implements Response {
         this.message = resultCode.message();
     }
 
+
+    public void setSuccess(boolean success) {
+        this.success = success;
+    }
+
     public static ResponseResult SUCCESS(){
         return new ResponseResult(CommonCode.SUCCESS);
     }

@@ -3,6 +3,7 @@ package com.xuecheng.managecms.service;
 import com.xuecheng.framework.domain.cms.CmsPage;
 import com.xuecheng.framework.domain.cms.request.QueryPageRequest;
 import com.xuecheng.framework.domain.cms.response.CmsPageResult;
+import com.xuecheng.framework.domain.cms.response.CmsPostPageResult;
 import com.xuecheng.framework.model.response.QueryResponseResult;
 import com.xuecheng.framework.model.response.ResponseResult;
 
@@ -80,4 +81,11 @@ public interface CmsService {
      * @return
      */
     CmsPageResult save(CmsPage cmsPage);
+
+    /**
+     * 发布课程详情页面
+     * @param cmsPage
+     * @return
+     */
+    CmsPostPageResult postCoursePage(CmsPage cmsPage);
 }

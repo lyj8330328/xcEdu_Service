@@ -29,8 +29,8 @@ eureka:
     instance-id: ${spring.application.name}:${server.port} #指定实例id
 
 ribbon:
-  ConnectTimeout: 5000 # 连接超时时间(ms)
-  ReadTimeout: 6000 # 通信超时时间(ms)
+  ConnectTimeout: 8000 # 连接超时时间(ms)
+  ReadTimeout: 8000 # 通信超时时间(ms)
   OkToRetryOnAllOperations: false # 是否对所有操作重试,如果是get则可以，如果是post，put等操作在没有实现幂等的情况下是很危险的，所以设置为false
   MaxAutoRetriesNextServer: 3 # 同一服务不同实例的重试次数
   MaxAutoRetries: 2 # 同一实例的重试次数

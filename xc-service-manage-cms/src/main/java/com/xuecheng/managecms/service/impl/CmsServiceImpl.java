@@ -5,10 +5,12 @@ import com.mongodb.client.gridfs.GridFSBucket;
 import com.mongodb.client.gridfs.GridFSDownloadStream;
 import com.mongodb.client.gridfs.model.GridFSFile;
 import com.xuecheng.framework.domain.cms.CmsPage;
+import com.xuecheng.framework.domain.cms.CmsSite;
 import com.xuecheng.framework.domain.cms.CmsTemplate;
 import com.xuecheng.framework.domain.cms.request.QueryPageRequest;
 import com.xuecheng.framework.domain.cms.response.CmsCode;
 import com.xuecheng.framework.domain.cms.response.CmsPageResult;
+import com.xuecheng.framework.domain.cms.response.CmsPostPageResult;
 import com.xuecheng.framework.exception.ExceptionCast;
 import com.xuecheng.framework.model.response.CommonCode;
 import com.xuecheng.framework.model.response.QueryResponseResult;
@@ -16,6 +18,7 @@ import com.xuecheng.framework.model.response.QueryResult;
 import com.xuecheng.framework.model.response.ResponseResult;
 import com.xuecheng.managecms.config.RabbitmqConfig;
 import com.xuecheng.managecms.dao.CmsPageRepository;
+import com.xuecheng.managecms.dao.CmsSiteRepository;
 import com.xuecheng.managecms.dao.CmsTemplateRepository;
 import com.xuecheng.managecms.service.CmsService;
 import freemarker.cache.StringTemplateLoader;
@@ -62,14 +65,17 @@ public class CmsServiceImpl implements CmsService {
 
     private final RabbitTemplate rabbitTemplate;
 
+    private final CmsSiteRepository cmsSiteRepository;
+
     @Autowired
-    public CmsServiceImpl(RabbitTemplate rabbitTemplate, GridFSBucket gridFSBucket, GridFsTemplate gridFsTemplate, CmsTemplateRepository cmsTemplateRepository, RestTemplate restTemplate, CmsPageRepository cmsPageRepository) {
+    public CmsServiceImpl(RabbitTemplate rabbitTemplate, GridFSBucket gridFSBucket, GridFsTemplate gridFsTemplate, CmsTemplateRepository cmsTemplateRepository, RestTemplate restTemplate, CmsPageRepository cmsPageRepository, CmsSiteRepository cmsSiteRepository) {
         this.rabbitTemplate = rabbitTemplate;
         this.gridFSBucket = gridFSBucket;
         this.gridFsTemplate = gridFsTemplate;
         this.cmsTemplateRepository = cmsTemplateRepository;
         this.restTemplate = restTemplate;
         this.cmsPageRepository = cmsPageRepository;
+        this.cmsSiteRepository = cmsSiteRepository;
     }
 
     /**
@@ -299,6 +305,37 @@ public class CmsServiceImpl implements CmsService {
             //添加
             return this.add(cmsPage);
         }
+    }
+
+    /**
+     * 发布课程详情页面
+     * @param cmsPage
+     * @return
+     */
+    @Override
+    public CmsPostPageResult postCoursePage(CmsPage cmsPage) {
+        //1.添加页面
+        CmsPageResult result = this.save(cmsPage);
+        if (!result.isSuccess()){
+            return new CmsPostPageResult(CommonCode.FAIL,null);
+        }
+        CmsPage cmsPage1 = result.getCmsPage();
+        //2.要发布的页面Id
+        String pageId = cmsPage1.getPageId();
+        //3.发布页面
+        ResponseResult responseResult = this.postPage(pageId);
+        if (!responseResult.isSuccess()){
+            return new CmsPostPageResult(CommonCode.FAIL,null);
+        }
+        //4.得到页面的url，url = 站点域名+站点webpath+页面webpath+页面名称
+        //4.1获取站点信息
+        Optional<CmsSite> optional = this.cmsSiteRepository.findById(cmsPage.getSiteId());
+        if (!optional.isPresent()){
+            ExceptionCast.cast(CmsCode.CMS_SITE_NOTEXISTS);
+        }
+        CmsSite cmsSite = optional.get();
+        //4.2拼装url
+        return new CmsPostPageResult(CommonCode.SUCCESS, cmsSite.getSiteDomain() + cmsSite.getSiteWebPath() + cmsPage1.getPageWebPath() + cmsPage1.getPageName());
     }
 
     private void sendPostPage(CmsPage cmsPage,String type) {

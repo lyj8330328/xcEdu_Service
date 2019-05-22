@@ -32,9 +32,9 @@ eureka:
     instance-id: ${spring.application.name}:${server.port} #指定实例id
 
 course‐publish:
-  siteId: 5a751fab6abb5044e0d19ea1  #站点id
+  siteId: 5ce3ecba591f42a4e44ce10b  #站点id
   templateId: 5aec5dd70e661808240ab7a6 #模板id
   previewUrl: http://www.xuecheng.com/cms/preview/  #预览地址
   pageWebPath: /course/detail/  #访问路径
-  pagePhysicalPath: /course/detail/ #物理路径
+  pagePhysicalPath: E:/Java_Demo/xuecheng/develop/xuecheng/static/ #页面的物理路径
   dataUrlPre: http://localhost:31200/course/courseview/  #数据地址

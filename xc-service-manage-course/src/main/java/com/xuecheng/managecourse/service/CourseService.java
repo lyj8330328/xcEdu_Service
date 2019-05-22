@@ -128,4 +128,11 @@ public interface CourseService {
      * @return
      */
     CoursePublicResult preview(String courseId);
+
+    /**
+     * 课程详情页面发布
+     * @param courseId 课程id
+     * @return
+     */
+    CoursePublicResult publish(String courseId);
 }
