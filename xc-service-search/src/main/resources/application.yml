@@ -1,0 +1,11 @@
+server:
+  port: 40100
+spring:
+  application:
+    name: xc-service-search
+xuecheng:
+  elasticsearch:
+    hostlist: 127.0.0.1:9200,127.0.0.1:9201,127.0.0.1:9202
+    course:
+      index: xc_course
+      type: doc
