@@ -258,6 +258,7 @@ public class TestSearch {
             System.out.println("score:" + hit.getScore());
             System.out.println("source:" + hit.getSourceAsString());
             System.out.println("----------------------------------");
+
         }
     }
 
