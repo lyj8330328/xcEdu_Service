@@ -19,6 +19,8 @@ import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
+import org.elasticsearch.search.sort.FieldSortBuilder;
+import org.elasticsearch.search.sort.SortOrder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,19 +42,26 @@ public class EsCourseSearchServiceImpl implements EsCourseSearchService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(EsCourseSearchServiceImpl.class);
 
-    @Value("${xuecheng.elasticsearch.course.index}")
+    @Value("${xuecheng.course.index}")
     private String esIndex;
 
-    @Value("${xuecheng.elasticsearch.course.type}")
+    @Value("${xuecheng.course.type}")
     private String esType;
 
-    @Value("${xuecheng.elasticsearch.course.source_field}")
+    @Value("${xuecheng.course.source_field}")
     private String esSourceField;
 
     @Autowired
     private RestHighLevelClient restHighLevelClient;
 
 
+    /**
+     * 搜索
+     * @param page 页码
+     * @param size 大小
+     * @param courseSearchParam 查询参数
+     * @return
+     */
     @Override
     public QueryResponseResult list(int page, int size, CourseSearchParam courseSearchParam) {
         String[] sourceFields = esSourceField.split(",");
@@ -75,7 +84,7 @@ public class EsCourseSearchServiceImpl implements EsCourseSearchService {
             multiMatchQueryBuilder.field("name", 10);
             boolQueryBuilder.must(multiMatchQueryBuilder);
         }
-        //7.按分类和难度等级过滤
+        //7.按分类和难度等级、价钱过滤
         if (StringUtils.isNotEmpty(courseSearchParam.getMt())){
             boolQueryBuilder.filter(QueryBuilders.termQuery("mt", courseSearchParam.getMt()));
         }
@@ -84,6 +93,9 @@ public class EsCourseSearchServiceImpl implements EsCourseSearchService {
         }
         if (StringUtils.isNotEmpty(courseSearchParam.getGrade())){
             boolQueryBuilder.filter(QueryBuilders.termQuery("grade", courseSearchParam.getGrade()));
+        }
+        if (courseSearchParam.getPrice_min() < courseSearchParam.getPrice_max()) {
+            boolQueryBuilder.filter(QueryBuilders.rangeQuery("price").gte(courseSearchParam.getPrice_min()).lte(courseSearchParam.getPrice_max()));
         }
         //8.高亮与分页
         //8.1分页
@@ -103,9 +115,16 @@ public class EsCourseSearchServiceImpl implements EsCourseSearchService {
         highlightBuilder.fields().add(new HighlightBuilder.Field("name"));
         highlightBuilder.fields().add(new HighlightBuilder.Field("description"));
         searchSourceBuilder.highlighter(highlightBuilder);
-        //9.布尔查询
+
+        //9.排序
+        if (StringUtils.isNotEmpty(courseSearchParam.getSort())) {
+            SortOrder order = courseSearchParam.getDescending() ? SortOrder.DESC : SortOrder.ASC;
+            searchSourceBuilder.sort(new FieldSortBuilder(courseSearchParam.getSort()).order(order));
+        }
+
+        //10.布尔查询
         searchSourceBuilder.query(boolQueryBuilder);
-        //10.请求搜索
+        //11.请求搜索
         searchRequest.source(searchSourceBuilder);
         SearchResponse searchResponse = null;
         try {
@@ -115,12 +134,12 @@ public class EsCourseSearchServiceImpl implements EsCourseSearchService {
             LOGGER.error("xuecheng search error..{}",e.getMessage());
             return new QueryResponseResult(CommonCode.SUCCESS, new QueryResult<CoursePub>());
         }
-        //11.结果集处理
+        //12.结果集处理
         SearchHits hits = searchResponse.getHits();
         SearchHit[] searchHits = hits.getHits();
-        //11.1记录总数
+        //12.1记录总数
         long totalHits = hits.getTotalHits();
-        //11.2数据列表
+        //12.2数据列表
         List<CoursePub> list = new ArrayList<>();
         for (SearchHit hit : searchHits){
             CoursePub coursePub = new CoursePub();
@@ -135,13 +154,13 @@ public class EsCourseSearchServiceImpl implements EsCourseSearchService {
             //价格
             Float price = null;
             if (sourseAsMap.get("price") != null){
-                price = Float.parseFloat((String) sourseAsMap.get("price"));
+                price = Float.parseFloat(String.valueOf(sourseAsMap.get("price")));
             }
             coursePub.setPrice(price);
             //旧价格
             Float oldPrice = null;
             if (sourseAsMap.get("price_old") != null){
-                oldPrice = Float.parseFloat((String) sourseAsMap.get("price_old"));
+                oldPrice = Float.parseFloat(String.valueOf(sourseAsMap.get("price_old")));
             }
             coursePub.setPrice_old(oldPrice);
             list.add(coursePub);

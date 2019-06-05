@@ -40,6 +40,11 @@ public class CourseSearchParam implements Serializable {
     Float price_max;
 
     /**
+     * 是否降序
+     */
+    Boolean descending;
+
+    /**
      * 排序字段
      */
     String sort;

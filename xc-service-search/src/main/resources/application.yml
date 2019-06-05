@@ -3,11 +3,12 @@ server:
 spring:
   application:
     name: xc-service-search
+
 xuecheng:
   elasticsearch:
     hostlist: 127.0.0.1:9200,127.0.0.1:9201,127.0.0.1:9202
-    course:
-      index: xc_course
-      type: doc
-      source_field: id,name,grade,mt,st,charge,valid,pic,qq,price,price_old,status,studymodel,teachmode,expires,pub_
+  course:
+    index: xc_course
+    type: doc
+    source_field: id,name,grade,mt,st,charge,valid,pic,qq,price,price_old,status,studymodel,teachmode,expires,pub_
       time,start_time,end_time
