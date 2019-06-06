@@ -153,6 +153,9 @@ public class EsCourseSearchServiceImpl implements EsCourseSearchService {
             //图片
             String pic = (String) sourseAsMap.get("pic");
             coursePub.setPic(pic);
+            //charge
+            String charge = (String) sourseAsMap.get("charge");
+            coursePub.setCharge(charge);
             //价格
             Float price = null;
             if (sourseAsMap.get("price") != null){
@@ -167,6 +170,7 @@ public class EsCourseSearchServiceImpl implements EsCourseSearchService {
             coursePub.setPrice_old(oldPrice);
             list.add(coursePub);
         }
+        System.out.println(list);
         QueryResult<CoursePub> queryResult = new QueryResult<>();
         queryResult.setList(list);
         queryResult.setTotal(totalHits);
