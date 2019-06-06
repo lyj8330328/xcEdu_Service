@@ -94,8 +94,10 @@ public class EsCourseSearchServiceImpl implements EsCourseSearchService {
         if (StringUtils.isNotEmpty(courseSearchParam.getGrade())){
             boolQueryBuilder.filter(QueryBuilders.termQuery("grade", courseSearchParam.getGrade()));
         }
-        if (courseSearchParam.getPrice_min() < courseSearchParam.getPrice_max()) {
-            boolQueryBuilder.filter(QueryBuilders.rangeQuery("price").gte(courseSearchParam.getPrice_min()).lte(courseSearchParam.getPrice_max()));
+        if (courseSearchParam.getPrice_min() != null && courseSearchParam.getPrice_max() != null){
+            if (courseSearchParam.getPrice_min() < courseSearchParam.getPrice_max()) {
+                boolQueryBuilder.filter(QueryBuilders.rangeQuery("price").gte(courseSearchParam.getPrice_min()).lte(courseSearchParam.getPrice_max()));
+            }
         }
         //8.高亮与分页
         //8.1分页
