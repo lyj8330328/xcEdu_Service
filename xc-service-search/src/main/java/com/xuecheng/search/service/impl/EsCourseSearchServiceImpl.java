@@ -148,6 +148,9 @@ public class EsCourseSearchServiceImpl implements EsCourseSearchService {
             CoursePub coursePub = new CoursePub();
             //取出source
             Map<String,Object> sourseAsMap = hit.getSourceAsMap();
+            //取出id
+            String id = (String) sourseAsMap.get("id");
+            coursePub.setId(id);
             //取出名称
             String name = (String) sourseAsMap.get("name");
             //取出高亮字段
