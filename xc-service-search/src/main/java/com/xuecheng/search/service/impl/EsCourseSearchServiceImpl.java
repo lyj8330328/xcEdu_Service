@@ -12,6 +12,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.common.text.Text;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.MultiMatchQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
@@ -19,6 +20,7 @@ import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
+import org.elasticsearch.search.fetch.subphase.highlight.HighlightField;
 import org.elasticsearch.search.sort.FieldSortBuilder;
 import org.elasticsearch.search.sort.SortOrder;
 import org.slf4j.Logger;
@@ -115,7 +117,6 @@ public class EsCourseSearchServiceImpl implements EsCourseSearchService {
         highlightBuilder.preTags("<font class='eslight'>");
         highlightBuilder.postTags("</font>");
         highlightBuilder.fields().add(new HighlightBuilder.Field("name"));
-        highlightBuilder.fields().add(new HighlightBuilder.Field("description"));
         searchSourceBuilder.highlighter(highlightBuilder);
 
         //9.排序
@@ -149,6 +150,19 @@ public class EsCourseSearchServiceImpl implements EsCourseSearchService {
             Map<String,Object> sourseAsMap = hit.getSourceAsMap();
             //取出名称
             String name = (String) sourseAsMap.get("name");
+            //取出高亮字段
+            Map<String, HighlightField> highlightFieldMap = hit.getHighlightFields();
+            if (highlightFieldMap != null){
+                HighlightField field = highlightFieldMap.get("name");
+                if (field != null){
+                    Text[] fragments = field.getFragments();
+                    StringBuffer sb = new StringBuffer();
+                    for (Text text : fragments){
+                        sb.append(text.string());
+                    }
+                    name = sb.toString();
+                }
+            }
             coursePub.setName(name);
             //图片
             String pic = (String) sourseAsMap.get("pic");
@@ -170,7 +184,6 @@ public class EsCourseSearchServiceImpl implements EsCourseSearchService {
             coursePub.setPrice_old(oldPrice);
             list.add(coursePub);
         }
-        System.out.println(list);
         QueryResult<CoursePub> queryResult = new QueryResult<>();
         queryResult.setList(list);
         queryResult.setTotal(totalHits);
