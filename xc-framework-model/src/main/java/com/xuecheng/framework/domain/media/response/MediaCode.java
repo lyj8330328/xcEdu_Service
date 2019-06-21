@@ -7,14 +7,24 @@ import lombok.ToString;
 
 
 /**
- * Created by admin on 2018/3/5.
+ * @author 98050
  */
+
 @ToString
 public enum MediaCode implements ResultCode {
+    /**
+     * 文件注册失败
+     */
     UPLOAD_FILE_REGISTER_FAIL(false,22001,"上传文件在系统注册失败，请刷新页面重试！"),
     UPLOAD_FILE_REGISTER_EXIST(false,22002,"上传文件在系统已存在！"),
-    CHUNK_FILE_EXIST_CHECK(true,22003,"分块文件在系统已存在！"),
+    UPLOAD_FILE_REGISTER_CREATE_FOLDER_FAIL(false,22003,"上传文件目录创建失败！"),
+    UPLOAD_CHUNK_IS_NULL(false,22003,"分块文件为空！"),
+    CHUNK_FILE_EXIST_CHECK(false,22003,"分块文件在系统已存在！"),
+    CHUNK_FILE_UPLOAD_FAIL(false,22003,"分块文件上传失败！"),
+    CREATE_CHUNK_FOLDER_FAIL(false,22003,"创建分块文件目录失败！"),
+    MERGE_FILE_CREATE_FAIL(false,22004,"合并文件创建失败"),
     MERGE_FILE_FAIL(false,22004,"合并文件失败，文件在系统已存在！"),
+    GET_CHUNK_FILE_FAIL(false,22004,"获取分块文件列表失败！"),
     MERGE_FILE_CHECKFAIL(false,22005,"合并文件校验失败！");
 
     //操作代码

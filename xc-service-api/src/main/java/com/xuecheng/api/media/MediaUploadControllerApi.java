@@ -4,6 +4,9 @@ import com.xuecheng.framework.domain.media.response.CheckChunkResult;
 import com.xuecheng.framework.model.response.ResponseResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -11,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
  * @Time: 2019-06-19 22:36
  * @Feature:
  */
+@RequestMapping("/media/upload")
 @Api(value = "媒体资源管理接口",description = "媒体资源管理接口，提供文件上传、文件管理接口")
 public interface MediaUploadControllerApi {
 
@@ -24,7 +28,12 @@ public interface MediaUploadControllerApi {
      * @return
      */
     @ApiOperation("文件上传注册")
-    ResponseResult register(String fileMd5,String fileName,Long fileSize,String mimetype,String fileExt);
+    @PostMapping("/register")
+    ResponseResult register(@RequestParam("fileMd5") String fileMd5,
+                            @RequestParam("fileName") String fileName,
+                            @RequestParam("fileSize") Long fileSize,
+                            @RequestParam("mimetype") String mimetype,
+                            @RequestParam("fileExt") String fileExt);
 
     /**
      * 分块检查
@@ -34,7 +43,10 @@ public interface MediaUploadControllerApi {
      * @return
      */
     @ApiOperation("分块检查")
-    CheckChunkResult checkChunk(String fileMd5,Integer chunk,Integer chunkSize);
+    @PostMapping("/checkChunk")
+    CheckChunkResult checkChunk(@RequestParam("fileMd5") String fileMd5,
+                                @RequestParam("chunk") Integer chunk,
+                                @RequestParam("chunkSize") Integer chunkSize);
 
     /**
      * 分块上传
@@ -44,7 +56,10 @@ public interface MediaUploadControllerApi {
      * @return
      */
     @ApiOperation("上传分块")
-    ResponseResult uploadChunk(MultipartFile file,Integer chunk,String fileMd5);
+    @PostMapping("/uploadChunk")
+    ResponseResult uploadChunk(@RequestParam("file") MultipartFile file,
+                               @RequestParam("chunk") Integer chunk,
+                               @RequestParam("fileMd5") String fileMd5);
 
     /**
      * 分块合并
@@ -56,5 +71,10 @@ public interface MediaUploadControllerApi {
      * @return
      */
     @ApiOperation("合并分块")
-    ResponseResult mergeChunk(String fileMd5,String fileName,Long fileSize,String mimetype,String fileExt);
+    @PostMapping("mergeChunk")
+    ResponseResult mergeChunk(@RequestParam("fileMd5") String fileMd5,
+                              @RequestParam("fileName") String fileName,
+                              @RequestParam("fileSize") Long fileSize,
+                              @RequestParam("mimetype") String mimetype,
+                              @RequestParam("fileExt") String fileExt);
 }

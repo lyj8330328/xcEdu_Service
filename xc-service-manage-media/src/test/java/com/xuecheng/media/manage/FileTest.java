@@ -70,7 +70,7 @@ public class FileTest {
         }
         //创建合并文件
         mergeFile.createNewFile();
-        //同于写文件
+        //用于写文件
         RandomAccessFile write = new RandomAccessFile(mergeFile, "rw");
         //指针指向文件顶端
         write.seek(0);
