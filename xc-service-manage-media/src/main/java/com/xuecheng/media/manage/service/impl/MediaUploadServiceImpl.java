@@ -33,13 +33,14 @@ public class MediaUploadServiceImpl implements MediaUploadService {
 
     private final MediaFileRepository mediaFileRepository;
 
+    @Value("${xc-service-manage-media.upload-location}")
+    private String uploadPath;
+
+
     @Autowired
     public MediaUploadServiceImpl(MediaFileRepository mediaFileRepository) {
         this.mediaFileRepository = mediaFileRepository;
     }
-
-    @Value("${xc-service-manage-media.upload-location}")
-    private String uploadPath;
 
 
     /**
@@ -146,7 +147,7 @@ public class MediaUploadServiceImpl implements MediaUploadService {
         if (file.exists() && optional.isPresent()){
             ExceptionCast.cast(MediaCode.UPLOAD_FILE_REGISTER_EXIST);
         }
-        //4.文件不存在，则直接上传
+        //4.文件不存在，则创建文件目录
         boolean fileFold = createFileFold(fileMd5);
         if (!fileFold){
             ExceptionCast.cast(MediaCode.UPLOAD_FILE_REGISTER_CREATE_FOLDER_FAIL);

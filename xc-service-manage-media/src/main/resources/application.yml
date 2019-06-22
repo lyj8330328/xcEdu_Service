@@ -2,11 +2,7 @@ server:
   port: 31400
 spring:
   application:
-    name: xc-service-media-manage
-  data:
-    mongodb:
-      uri:  mongodb://root:123@localhost:27017
-      database: xc_media
+    name: xc-service-manage-media
 xc-service-manage-media:
   upload-location: F:/develop/video/
 eureka:

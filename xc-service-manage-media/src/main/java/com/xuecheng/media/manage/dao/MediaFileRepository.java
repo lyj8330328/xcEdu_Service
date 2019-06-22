@@ -9,5 +9,4 @@ import org.springframework.data.mongodb.repository.MongoRepository;
  * @Feature:
  */
 public interface MediaFileRepository extends MongoRepository<MediaFile,String> {
-
 }
