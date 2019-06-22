@@ -1,4 +1,4 @@
-package com.xuecheng.media.manage;
+package com.xuecheng.manage.media;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -1,4 +1,4 @@
-package com.xuecheng.media.manage.service.impl;
+package com.xuecheng.manage.media.service.impl;
 
 import com.xuecheng.framework.domain.media.MediaFile;
 import com.xuecheng.framework.domain.media.response.CheckChunkResult;
@@ -6,8 +6,8 @@ import com.xuecheng.framework.domain.media.response.MediaCode;
 import com.xuecheng.framework.exception.ExceptionCast;
 import com.xuecheng.framework.model.response.CommonCode;
 import com.xuecheng.framework.model.response.ResponseResult;
-import com.xuecheng.media.manage.dao.MediaFileRepository;
-import com.xuecheng.media.manage.service.MediaUploadService;
+import com.xuecheng.manage.media.service.MediaUploadService;
+import com.xuecheng.manage.media.dao.MediaFileRepository;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;

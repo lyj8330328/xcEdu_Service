@@ -1,4 +1,4 @@
-package com.xuecheng.media.manage.service;
+package com.xuecheng.manage.media.service;
 
 import com.xuecheng.framework.domain.media.response.CheckChunkResult;
 import com.xuecheng.framework.model.response.ResponseResult;
