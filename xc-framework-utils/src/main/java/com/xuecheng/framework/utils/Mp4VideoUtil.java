@@ -4,15 +4,21 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
+
 /**
- * Created by admin on 2018/3/6.
+ * @author 98050
  */
 public class Mp4VideoUtil extends VideoUtil {
 
-    String ffmpeg_path = "D:\\Program Files\\ffmpeg-20180227-fa0c9d6-win64-static\\bin\\ffmpeg.exe";//ffmpeg的安装位置
+    /**
+     * ffmpeg的安装位置
+     */
+    String ffmpeg_path = "D:\\ffmpeg\\bin";
     String video_path = "D:\\BaiduNetdiskDownload\\test1.avi";
     String mp4_name = "test1.mp4";
     String mp4folder_path = "D:/BaiduNetdiskDownload/Movies/test1/";
+
+
     public Mp4VideoUtil(String ffmpeg_path, String video_path, String mp4_name, String mp4folder_path){
         super(ffmpeg_path);
         this.ffmpeg_path = ffmpeg_path;
@@ -20,9 +26,15 @@ public class Mp4VideoUtil extends VideoUtil {
         this.mp4_name = mp4_name;
         this.mp4folder_path = mp4folder_path;
     }
-    //清除已生成的mp4
+
+    /**
+     * 清除已生成的mp4
+     * @param mp4_path
+     */
     private void clear_mp4(String mp4_path){
-        //删除原来已经生成的m3u8及ts文件
+        /**
+         * 删除原来已经生成的m3u8及ts文件
+         */
         File mp4File = new File(mp4_path);
         if(mp4File.exists() && mp4File.isFile()){
             mp4File.delete();
@@ -46,7 +58,10 @@ public class Mp4VideoUtil extends VideoUtil {
         commend.add(video_path);
         commend.add("-c:v");
         commend.add("libx264");
-        commend.add("-y");//覆盖输出文件
+        /**
+         * 覆盖输出文件
+         */
+        commend.add("-y");
         commend.add("-s");
         commend.add("1280x720");
         commend.add("-pix_fmt");
@@ -81,7 +96,10 @@ public class Mp4VideoUtil extends VideoUtil {
     }
 
     public static void main(String[] args) throws IOException {
-        String ffmpeg_path = "D:\\Program Files\\ffmpeg-20180227-fa0c9d6-win64-static\\bin\\ffmpeg.exe";//ffmpeg的安装位置
+        /**
+         * ffmpeg的安装位置
+         */
+        String ffmpeg_path = "D:\\ffmpeg\\bin";
         String video_path = "E:\\ffmpeg_test\\1.avi";
         String mp4_name = "809694a6a974c35e3a36f36850837d7c.mp4";
         String mp4_path = "F:/develop/upload/8/0/809694a6a974c35e3a36f36850837d7c/";

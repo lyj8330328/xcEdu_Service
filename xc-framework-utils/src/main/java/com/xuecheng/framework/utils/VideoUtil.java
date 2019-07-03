@@ -12,14 +12,22 @@ import java.util.List;
  */
 public class VideoUtil {
 
-    String ffmpeg_path = "D:\\Program Files\\ffmpeg-20180227-fa0c9d6-win64-static\\bin\\ffmpeg.exe";//ffmpeg的安装位置
+    /**
+     * ffmpeg的安装位置
+     */
+    String ffmpeg_path = "D:\\ffmpeg\\bin";
 
     public VideoUtil(String ffmpeg_path){
         this.ffmpeg_path = ffmpeg_path;
     }
 
 
-    //检查视频时间是否一致
+    /**
+     * 检查视频时间是否一致
+     * @param source
+     * @param target
+     * @return
+     */
     public Boolean check_video_time(String source,String target) {
         String source_time = get_video_time(source);
         //取出时分秒
@@ -36,7 +44,11 @@ public class VideoUtil {
         return false;
     }
 
-    //获取视频时间(时：分：秒：毫秒)
+    /**
+     * 获取视频时间(时：分：秒：毫秒)
+     * @param video_path
+     * @return
+     */
     public String get_video_time(String video_path) {
         /*
         ffmpeg -i  lucene.mp4
@@ -82,7 +94,10 @@ public class VideoUtil {
             in = p.getInputStream();
             error = p.getErrorStream();
             boolean finished = false;
-            int maxRetry = 600;//每次休眠1秒，最长执行时间10分种
+            /**
+             * 每次休眠1秒，最长执行时间10分种
+             */
+            int maxRetry = 600;
             int retry = 0;
             while (!finished) {
                 if (retry > maxRetry) {
@@ -99,12 +114,17 @@ public class VideoUtil {
                         outputString.append(c);
                         System.out.print(c);
                     }
-                    //进程未结束时调用exitValue将抛出异常
+                    /**
+                     * 进程未结束时调用exitValue将抛出异常
+                     */
                     exitValue = p.exitValue();
                     finished = true;
 
                 } catch (IllegalThreadStateException e) {
-                    Thread.currentThread().sleep(1000);//休眠1秒
+                    /**
+                     * 休眠1秒
+                     */
+                    Thread.sleep(1000);
                     retry++;
                 }
             }
@@ -126,7 +146,10 @@ public class VideoUtil {
 
 
     public static void main(String[] args) throws IOException {
-        String ffmpeg_path = "D:\\Program Files\\ffmpeg-20180227-fa0c9d6-win64-static\\bin\\ffmpeg.exe";//ffmpeg的安装位置
+        /**
+         * ffmpeg的安装位置
+         */
+        String ffmpeg_path = "D:\\ffmpeg\\bin";
         VideoUtil videoUtil = new VideoUtil(ffmpeg_path);
         String video_time = videoUtil.get_video_time("E:\\ffmpeg_test\\1.avi");
         System.out.println(video_time);

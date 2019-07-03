@@ -19,4 +19,4 @@ xc-service-manage-media:
     queue-media-video-processor: queue_media_video_processor
     routingkey-media-video: routingkey_media_video
     video-location: F:/develop/video/
-    ffmpeg-path: D:/ffmpeg/bin
+    ffmpeg-path: D:/ffmpeg/bin/ffmpeg.exe
