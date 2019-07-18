@@ -45,7 +45,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             return null;
         }
         XcUserExt userext = new XcUserExt();
-        userext.setUsername("itcast");
+        userext.setUsername("admin");
         userext.setPassword(new BCryptPasswordEncoder().encode("123"));
         userext.setPermissions(new ArrayList<XcMenu>());
         if(userext == null){

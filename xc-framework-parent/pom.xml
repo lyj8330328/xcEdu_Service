@@ -38,6 +38,7 @@
         <elasticsearch.version>6.2.1</elasticsearch.version>
         <guava.version>24.0-jre</guava.version>
         <pagehelper.version>1.2.4</pagehelper.version>
+        <spring-cloud-oauth2.version>2.0.0.RELEASE</spring-cloud-oauth2.version>
     </properties>
     <!--test-->
     <dependencyManagement>
@@ -178,6 +179,12 @@
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-starter-openfeign</artifactId>
                 <version>${spring-boot.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-oauth2</artifactId>
+                <version>${spring-cloud-oauth2.version}</version>
             </dependency>
 
         </dependencies>
