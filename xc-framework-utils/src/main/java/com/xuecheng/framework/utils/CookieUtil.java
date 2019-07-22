@@ -6,8 +6,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
 
+
 /**
- * Created by admin on 2018/3/18.
+ * @author 98050
  */
 public class CookieUtil {
 
