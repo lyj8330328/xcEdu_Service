@@ -7,16 +7,21 @@ import lombok.ToString;
 
 import java.util.List;
 
+
 /**
- * Created by admin on 2018/3/20.
+ * @author 98050
  */
 @Data
 @ToString
 public class XcUserExt extends XcUser {
 
-    //权限信息
+    /**
+     * 用户权限信息
+     */
     private List<XcMenu> permissions;
 
-    //企业信息
+    /**
+     * 企业信息
+     */
     private String companyId;
 }
