@@ -1,5 +1,6 @@
 package com.xuecheng.auth.service.impl;
 
+import com.xuecheng.auth.client.UserClient;
 import com.xuecheng.auth.service.UserJwt;
 import com.xuecheng.framework.domain.ucenter.XcMenu;
 import com.xuecheng.framework.domain.ucenter.ext.XcUserExt;
@@ -26,8 +27,17 @@ import java.util.List;
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
+
+    private final ClientDetailsService clientDetailsService;
+
+
+    private final UserClient userClient;
+
     @Autowired
-    ClientDetailsService clientDetailsService;
+    public UserDetailsServiceImpl(ClientDetailsService clientDetailsService, UserClient userClient) {
+        this.clientDetailsService = clientDetailsService;
+        this.userClient = userClient;
+    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -45,33 +55,38 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         if (StringUtils.isEmpty(username)) {
             return null;
         }
-        XcUserExt userext = new XcUserExt();
-        userext.setUsername("admin");
-        userext.setPassword(new BCryptPasswordEncoder().encode("123"));
-        userext.setPermissions(new ArrayList<XcMenu>());
-        if(userext == null){
+        //远程调用用户中心服务，根据用户名查询用户
+        XcUserExt userExt = this.userClient.getUserExt(username);
+        if (userExt == null){
+            //返回NULL表示用户不存在，Spring Security会抛出 异常
             return null;
         }
-        //取出正确密码（hash值）
-        String password = userext.getPassword();
-        //这里暂时使用静态密码
-//       String password ="123";
-        //用户权限，这里暂时使用静态数据，最终会从数据库读取
-        //从数据库获取权限
-        List<XcMenu> permissions = userext.getPermissions();
-        List<String> user_permission = new ArrayList<>();
-        permissions.forEach(item-> user_permission.add(item.getCode()));
+        //从数据库查询用户正确的密码，Spring Security会去对比输入密码的正确性
+        String password = userExt.getPassword();
+
+
+        //用户权限，先暂时不做
+//        List<XcMenu> permissions = userExt.getPermissions();
+//        List<String> user_permission = new ArrayList<>();
+//        permissions.forEach(item-> user_permission.add(item.getCode()));
 //        user_permission.add("course_get_baseinfo");
 //        user_permission.add("course_find_pic");
-        String user_permission_string  = StringUtils.join(user_permission.toArray(), ",");
+//        String user_permission_string  = StringUtils.join(user_permission.toArray(), ",");
+        String user_permission_string  = "";
         UserJwt userDetails = new UserJwt(username,
                 password,
                 AuthorityUtils.commaSeparatedStringToAuthorityList(user_permission_string));
-        userDetails.setId(userext.getId());
-        userDetails.setUtype(userext.getUtype());//用户类型
-        userDetails.setCompanyId(userext.getCompanyId());//所属企业
-        userDetails.setName(userext.getName());//用户名称
-        userDetails.setUserpic(userext.getUserpic());//用户头像
+        /**
+         * 设置用户id
+         * 用户类型
+         * 所属企业
+         * 用户头像
+         */
+        userDetails.setId(userExt.getId());
+        userDetails.setUtype(userExt.getUtype());
+        userDetails.setCompanyId(userExt.getCompanyId());
+        userDetails.setName(userExt.getName());
+        userDetails.setUserpic(userExt.getUserpic());
        /* UserDetails userDetails = new org.springframework.security.core.userdetails.User(username,
                 password,
                 AuthorityUtils.commaSeparatedStringToAuthorityList(""));*/
