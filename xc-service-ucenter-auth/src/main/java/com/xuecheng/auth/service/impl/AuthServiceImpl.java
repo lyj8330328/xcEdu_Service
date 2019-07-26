@@ -7,6 +7,7 @@ import com.xuecheng.framework.domain.ucenter.ext.AuthToken;
 import com.xuecheng.framework.domain.ucenter.response.AuthCode;
 import com.xuecheng.framework.exception.ExceptionCast;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -131,7 +132,13 @@ public class AuthServiceImpl implements AuthService {
             ExceptionCast.cast(AuthCode.AUTH_LOGIN_GETTOKEN_FAIL);
         }
         if (result == null || result.get("access_token") == null || result.get("refresh_token") == null || result.get("jti") == null){
-            ExceptionCast.cast(AuthCode.AUTH_LOGIN_GETTOKEN_FAIL);
+
+            String errorDescription = (String) result.get("error_description");
+            if (errorDescription.equals("坏的凭证")){
+                ExceptionCast.cast(AuthCode.AUTH_CREDENTIAL_ERROR);
+            }else if (errorDescription.equals("Cannot pass null or empty values to constructor")){
+                ExceptionCast.cast(AuthCode.AUTH_ACCOUNT_NOTEXISTS);
+            }
         }
         AuthToken authToken = new AuthToken();
         authToken.setAccessToken((String) result.get("access_token"));

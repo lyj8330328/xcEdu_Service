@@ -4,6 +4,7 @@ import com.xuecheng.framework.domain.ucenter.ext.XcUserExt;
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * @Author: 98050
@@ -20,5 +21,5 @@ public interface UcenterControllerApi {
      * @return
      */
     @GetMapping("/getUser")
-    XcUserExt getUserExt(String username);
+    XcUserExt getUserExt(@RequestParam("username")String username);
 }

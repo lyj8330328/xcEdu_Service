@@ -25,7 +25,7 @@ public interface AuthControllerApi {
      */
     @ApiOperation("登录")
     @PostMapping("/userLogin")
-    LoginResult login(@RequestBody LoginRequest loginRequest);
+    LoginResult login(LoginRequest loginRequest);
 
     /**
      * 用户退出

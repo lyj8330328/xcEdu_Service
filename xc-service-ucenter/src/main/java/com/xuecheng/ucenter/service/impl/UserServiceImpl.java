@@ -3,6 +3,8 @@ package com.xuecheng.ucenter.service.impl;
 import com.xuecheng.framework.domain.ucenter.XcCompanyUser;
 import com.xuecheng.framework.domain.ucenter.XcUser;
 import com.xuecheng.framework.domain.ucenter.ext.XcUserExt;
+import com.xuecheng.framework.domain.ucenter.response.UcenterCode;
+import com.xuecheng.framework.exception.ExceptionCast;
 import com.xuecheng.ucenter.dao.XcCompanyUserRepository;
 import com.xuecheng.ucenter.dao.XcUserRepository;
 import com.xuecheng.ucenter.service.UserService;
