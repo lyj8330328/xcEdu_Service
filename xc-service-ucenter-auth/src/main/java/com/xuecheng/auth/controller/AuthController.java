@@ -5,6 +5,7 @@ import com.xuecheng.auth.service.AuthService;
 import com.xuecheng.framework.domain.ucenter.ext.AuthToken;
 import com.xuecheng.framework.domain.ucenter.request.LoginRequest;
 import com.xuecheng.framework.domain.ucenter.response.AuthCode;
+import com.xuecheng.framework.domain.ucenter.response.JwtResult;
 import com.xuecheng.framework.domain.ucenter.response.LoginResult;
 import com.xuecheng.framework.exception.ExceptionCast;
 import com.xuecheng.framework.model.response.CommonCode;
@@ -18,7 +19,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -51,6 +54,11 @@ public class AuthController implements AuthControllerApi {
     @Autowired
     private AuthService authService;
 
+    /**
+     * 用户登录
+     * @param loginRequest
+     * @return
+     */
     @Override
     public LoginResult login(LoginRequest loginRequest) {
         if (loginRequest == null){
@@ -85,8 +93,48 @@ public class AuthController implements AuthControllerApi {
         }
     }
 
+    /**
+     * 用户退出
+     * @return
+     */
     @Override
     public ResponseResult logout() {
-        return null;
+        //1.取出jti
+        String jti = getTokenFromCookie();
+        //2.删除redis中的令牌
+        this.authService.delJwtInRedis(jti);
+        //3.删除cookie中的令牌
+        clearCookie(jti);
+        return new ResponseResult(CommonCode.SUCCESS);
+    }
+
+    private void clearCookie(String jti) {
+        HttpServletResponse response = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getResponse();
+        CookieUtil.addCookie(Objects.requireNonNull(response), cookieDomain, "/", "uid", jti, 0, false);
+    }
+
+    /**
+     * 根据cookie中的短令牌查询redis中的长令牌
+     * @return
+     */
+    @Override
+    public JwtResult getJwt() {
+        //获取cookie中的令牌
+        String jti = getTokenFromCookie();
+        if (StringUtils.isEmpty(jti)){
+            return new JwtResult(CommonCode.FAIL, null);
+        }
+        //根据令牌从redis查询jwt
+        AuthToken authToken = this.authService.getJwtFromRedis(jti);
+        if (authToken == null){
+            return new JwtResult(CommonCode.FAIL, null);
+        }
+        return new JwtResult(CommonCode.SUCCESS, authToken.getAccessToken());
+    }
+
+    private String getTokenFromCookie() {
+        HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
+        Map<String, String> map = CookieUtil.readCookie(request, "uid");
+        return map.get("uid");
     }
 }

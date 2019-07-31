@@ -81,6 +81,41 @@ public class AuthServiceImpl implements AuthService {
         return authToken;
     }
 
+    /**
+     * 从redis中查询jwt令牌
+     * @param jti
+     * @return
+     */
+    @Override
+    public AuthToken getJwtFromRedis(String jti) {
+        String userToken = "user_token:" + jti;
+        String value = this.stringRedisTemplate.opsForValue().get(userToken);
+        if (value != null){
+            AuthToken authToken = null;
+            try {
+                authToken = JSON.parseObject(value, AuthToken.class);
+            }catch (Exception e){
+                LOGGER.error("getUserToken from redis and execute JSON.parseObject error {}",e.getMessage());
+                e.printStackTrace();
+            }
+            return authToken;
+        }
+        return null;
+    }
+
+    /**
+     * 删除redis中的令牌
+     * @param jti
+     * @return
+     */
+    @Override
+    public boolean delJwtInRedis(String jti) {
+        //1.key
+        String key = "user_token:" + jti;
+        //2.删除
+        return stringRedisTemplate.delete(key);
+    }
+
     private Boolean saveTokenInRedis(String jti, String content, int tokenValiditySeconds) {
         //1.key
         String key = "user_token:" + jti;
@@ -113,17 +148,18 @@ public class AuthServiceImpl implements AuthService {
         body.add("password", password);
         //5.当遇到401或者400错误时不要抛出异常，应返回正常值
         HttpEntity<MultiValueMap<String,String>> multiValueMapHttpEntity = new HttpEntity<>(body,headers);
-        restTemplate.setErrorHandler(new DefaultResponseErrorHandler(){
-            @Override
-            public void handleError(ClientHttpResponse response) throws IOException {
-                if (response.getRawStatusCode() != 400 && response.getRawStatusCode() != 401) {
-                    super.handleError(response);
-                }
-            }
-        });
-        //6.远程调用，申请令牌
         Map result = null;
         try {
+            restTemplate.setErrorHandler(new DefaultResponseErrorHandler(){
+                @Override
+                public void handleError(ClientHttpResponse response) throws IOException {
+                    if (response.getRawStatusCode() != 400 && response.getRawStatusCode() != 401) {
+                        super.handleError(response);
+                    }
+                }
+            });
+
+            //6.远程调用，申请令牌
             ResponseEntity<Map> entity = restTemplate.exchange(authUrl, HttpMethod.POST, multiValueMapHttpEntity, Map.class);
             result = entity.getBody();
         }catch (RestClientException e){
@@ -132,11 +168,10 @@ public class AuthServiceImpl implements AuthService {
             ExceptionCast.cast(AuthCode.AUTH_LOGIN_GETTOKEN_FAIL);
         }
         if (result == null || result.get("access_token") == null || result.get("refresh_token") == null || result.get("jti") == null){
-
             String errorDescription = (String) result.get("error_description");
             if (errorDescription.equals("坏的凭证")){
                 ExceptionCast.cast(AuthCode.AUTH_CREDENTIAL_ERROR);
-            }else if (errorDescription.equals("Cannot pass null or empty values to constructor")){
+            }else if (errorDescription.equals("UserDetailsService returned null, which is an interface contract violation")){
                 ExceptionCast.cast(AuthCode.AUTH_ACCOUNT_NOTEXISTS);
             }
         }

@@ -1,10 +1,12 @@
 package com.xuecheng.api.ucenter;
 
 import com.xuecheng.framework.domain.ucenter.request.LoginRequest;
+import com.xuecheng.framework.domain.ucenter.response.JwtResult;
 import com.xuecheng.framework.domain.ucenter.response.LoginResult;
 import com.xuecheng.framework.model.response.ResponseResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,4 +36,12 @@ public interface AuthControllerApi {
     @ApiOperation("退出")
     @PostMapping("/userLogout")
     ResponseResult logout();
+
+    /**
+     * 根据cookie中的jti短令牌获取redis中的accessToken
+     * @return
+     */
+    @ApiOperation("查询jwt令牌")
+    @GetMapping("/userJwt")
+    JwtResult getJwt();
 }

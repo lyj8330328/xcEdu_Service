@@ -25,7 +25,8 @@ public enum AuthCode implements ResultCode {
     AUTH_LOGIN_GETTOKEN_FAIL(false,23008,"申请令牌出错！"),
     AUTH_LOGIN_TOKEN_SAVE_FAIL(false,23009,"令牌存储失败！"),
     AUTH_LOGIN_AUTHSERVER_NOTFOUND(false,230010,"认证服务未找到！"),
-    AUTH_LOGIN_ERROR(false,230011,"登陆过程出现异常请尝试重新操作！");
+    AUTH_LOGIN_ERROR(false,230011,"登陆过程出现异常请尝试重新操作！"),
+    GET_JTI_FROM_COOKIE_ERROR(false,230012,"从Cookie中获取令牌失败");
 
     //操作代码
     @ApiModelProperty(value = "操作是否成功", example = "true", required = true)
