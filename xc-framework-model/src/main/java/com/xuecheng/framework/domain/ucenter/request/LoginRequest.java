@@ -14,6 +14,5 @@ public class LoginRequest extends RequestData {
 
     String username;
     String password;
-    String verifycode;
-
+    //String verifycode;
 }

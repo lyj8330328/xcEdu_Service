@@ -18,4 +18,18 @@ public interface AuthService {
      * @return
      */
     AuthToken login(String username,String password,String clientId,String clientSecret);
+
+    /**
+     * 从redis中查询jwt令牌
+     * @param jti
+     * @return
+     */
+    AuthToken getJwtFromRedis(String jti);
+
+    /**
+     * 删除redis中的令牌
+     * @param jti
+     * @return
+     */
+    boolean delJwtInRedis(String jti);
 }
